@@ -3,7 +3,6 @@ import requests
 import json
 from os.path import exists
 
-# get player images
 def get_player_images():
   url = "https://www.nba.com/players"
 
