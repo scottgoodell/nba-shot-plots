@@ -1,0 +1,10 @@
+apscheduler
+bs4
+flask
+gunicorn
+matplotlib
+nba-api
+numpy
+prisma
+requests
+tweepy

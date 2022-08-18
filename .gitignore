@@ -1,0 +1,4 @@
+.env
+__pycache__
+# this is temp while setting up secrets
+app/tweeter.py
