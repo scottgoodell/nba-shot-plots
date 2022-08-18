@@ -3,7 +3,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from .game_final_updater import GameFinalUpdater
 from .available_chart_players import available_chart_players
 from .game_shot_plot import GameShotPlot
-from .tweeter import Tweeter
+# from .tweeter import Tweeter
 
 
 scheduler = BackgroundScheduler(daemon=True)
@@ -36,9 +36,9 @@ def build_chart(team_id, player_id, game_id):
 
   return img_link
   
-def send_tweet(media_link, account = "foobar"):
-  tweeter = Tweeter()
-  tweeter.send_tweet(media_link)
+# def send_tweet(media_link, account = "foobar"):
+#   tweeter = Tweeter()
+#   tweeter.send_tweet(media_link)
 
 @app.route("/")
 def hello_hunty():
