@@ -1,3 +1,3 @@
 web: gunicorn wsgi:app
 
-release: prisma generate
+release: prisma migrate deploy
