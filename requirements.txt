@@ -2,9 +2,9 @@ apscheduler
 bs4
 flask
 gunicorn
-matplotlib
+matplotlib --no-binary matplotlib
 nba-api
-numpy
+numpy --no-binary numpy
 prisma
 requests
 tweepy
