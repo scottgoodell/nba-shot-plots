@@ -1,13 +1,17 @@
 from nba_api.live.nba.endpoints import scoreboard
+import csv
 import json
+import os
 import pandas
 
 
 class GameFinalUpdater:
 
   def __init__(self) -> None:
-    # TODO: Add method to create new CSV with headers if it doesn't exist
-    self.df = pandas.read_csv("./data/game_finals.csv", dtype="str")
+    self.csv_path = "./game_finals.csv"
+    
+    self._init_game_finals_csv()
+    self.df = pandas.read_csv(self.csv_path, dtype="str")
 
   def update_game_finals(self):
     new_game_finals = []
@@ -42,7 +46,7 @@ class GameFinalUpdater:
       }
 
       df_new_row = self.df.append(row, ignore_index = True)
-      df_new_row.to_csv("./data/game_finals.csv", index = False)
+      df_new_row.to_csv(self.csv_path, index = False)
 
     return {
       "game_id": game_id,
@@ -58,3 +62,13 @@ class GameFinalUpdater:
   def _get_scoreboard(self):
     data = scoreboard.ScoreBoard()
     return data.get("scoreboard", {}).get("games", [])
+  
+  def _init_game_finals_csv(self):
+    columns = ["game_id", "game_date", "away_team_id", "home_team_id"]
+    
+    if not os.path.exists(self.csv_path):
+      print("Creating new csv for game finals")
+      with open(self.csv_path, 'w', newline='') as file:
+        csvwriter = csv.writer(file)
+        csvwriter.writerow(columns)
+        file.close()
