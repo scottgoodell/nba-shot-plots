@@ -1,12 +1,13 @@
 from nba_api.live.nba.endpoints import scoreboard
 import json
-from prisma import Prisma
+import pandas
 
 
 class GameFinalUpdater:
 
   def __init__(self) -> None:
-    self.db = Prisma()
+    # TODO: Add method to create new CSV with headers if it doesn't exist
+    self.df = pandas.read_csv("./data/game_finals.csv", dtype="str")
 
   def update_game_finals(self):
     new_game_finals = []
@@ -22,35 +23,31 @@ class GameFinalUpdater:
     return new_game_finals
 
   def _update_game_final(self, game):
-    self.db.connect()
-
-    game_final = self.db.gamefinal.find_unique(
-      where = {
-        "game_id": game["gameId"]
-      },
-    )
-    if game_final:
-      game_id = game_final.game_id
+    game_id = game["gameId"]
+    away_team_id = game["awayTeam"]["teamId"]
+    home_team_id = game["homeTeam"]["teamId"]
+    team_ids = [away_team_id, home_team_id]
+    game_final_df = self.df.loc[self.df["game_id"] == game_id]
+    
+    if game_final_df.shape[0] == 1:
       new_final = False
-      team_ids = [game_final.away_team_id, game_final.home_team_id]
     else:
-      new_game_final = self.db.gamefinal.create({
-        "game_id": game["gameId"],
-        "game_date": game["gameCode"].split("/")[0],
-        "away_team_id": int(game["awayTeam"]["teamId"]),
-        "home_team_id": int(game["homeTeam"]["teamId"]),
-      })
-
-      game_id = new_game_final.game_id
       new_final = True
-      team_ids = [new_game_final.away_team_id, new_game_final.home_team_id]
+      
+      row = {
+        "game_id": game_id,
+        "game_date": game["gameCode"].split("/")[0],
+        "away_team_id": away_team_id,
+        "home_team_id": home_team_id,
+      }
 
-    self.db.disconnect()
+      df_new_row = self.df.append(row, ignore_index = True)
+      df_new_row.to_csv("./data/game_finals.csv", index = False)
 
     return {
       "game_id": game_id,
       "new_final": new_final,
-      "team_ids": team_ids
+      "team_ids": team_ids 
     }
 
   def _get_scoreboard_json(self):
