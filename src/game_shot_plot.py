@@ -7,7 +7,9 @@ import json
 import os
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+from numpy import random
 import re
+import time
 
 from services.google_storage_handler import GoogleStorageHandler
 
@@ -58,6 +60,7 @@ class GameShotPlot:
     mpl.rcParams['font.weight'] = "bold"
     mpl.rcParams['font.family'] = "McLaren"
 
+    self._delay_api_request()
     shot_json = shotchartdetail.ShotChartDetail(
       team_id = self.team_id,
       player_id = self.player_id,
@@ -245,6 +248,7 @@ class GameShotPlot:
     return re.sub(r'[^a-z-]', '', full_name.lower().replace(" ", "-"))
 
   def _get_game_boxscore(self):
+    self._delay_api_request()
     data = boxscore.BoxScore(self.game_id)
     return data.game.get_dict()
 
@@ -321,6 +325,9 @@ class GameShotPlot:
     / (player_mins * (team_fgs + (.44 * team_fts) + team_tos))
 
     return str(int(round(usage_percentage * 100, 0)))
+
+  def _delay_api_request(self):
+    return time.sleep(random.uniform(1,2))
 
 
 if __name__ == "__main__":
