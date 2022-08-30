@@ -4,6 +4,7 @@ import nba_api.stats.static.players as players
 
 from datetime import datetime
 import json
+import os
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import re
@@ -17,7 +18,7 @@ from static.rookies import rookies
 class GameShotPlot:
 
   # TODO: add a method to add tweet text that is outside the chart
-  def __init__(self, game_id, player_id, team_id, shot_type = "FGA", season = "2020-21", season_part = "Regular Season") -> None:
+  def __init__(self, game_id, player_id, team_id, shot_type = "FGA", season = "2021-22", season_part = "Regular Season") -> None:
     self.game_id            = game_id
     self.player_id          = player_id
     self.team_id            = team_id
@@ -27,17 +28,24 @@ class GameShotPlot:
     self.local_img_location = "/tmp"
 
   def build(self):
-    font_dir = ["./static/fonts/Lato", "./static/fonts/McLaren"]
-    for font in mpl.font_manager.findSystemFonts(font_dir):
-      mpl.font_manager.fontManager.addfont(font)
-      
-    plt.switch_backend('Agg')
-
     court_color = colors["court_color"]
     background_color = colors["chart_background"]
     chart_text_color = colors["chart_text"]
     lines_width = 1.5 # const?
     lines_opacity = 0.85 # const?
+
+    game_boxscore_data = self._get_game_boxscore()
+    team_boxscore_data = self._get_team_stats(game_boxscore_data)
+    top_stats, bottom_stats = self._get_player_game_stats(team_boxscore_data)
+
+    if top_stats["status"] == "INACTIVE" or top_stats["minutes"] == 0:
+      return None
+
+    font_dir = ["./static/fonts/Lato", "./static/fonts/McLaren"]
+    for font in mpl.font_manager.findSystemFonts(font_dir):
+      mpl.font_manager.fontManager.addfont(font)
+
+    plt.switch_backend('Agg')
 
     storage_client = GoogleStorageHandler()
 
@@ -139,13 +147,6 @@ class GameShotPlot:
     court_ax.set_xlim(-250, 250)
     court_ax.set_ylim(0, 470)
 
-    game_boxscore_data = self._get_game_boxscore()
-    team_boxscore_data = self._get_team_stats(game_boxscore_data)
-    
-    # TODO: get this method higher up in the chain so we don't start creating the chart earlier than we need to
-    # We should be returning None if the player wasn't active so we don't create a blank chart
-    # How should we handle DNP Coach's vs. Injury?
-    top_stats, bottom_stats = self._get_player_game_stats(team_boxscore_data)
     stat_count = 0
     for c in [0.32, 0.56, 0.77]:
       for r in [0.10, 0.07, 0.04, 0.01]:
@@ -175,7 +176,7 @@ class GameShotPlot:
     name_title_txt_box_props = dict(facecolor=background_color, edgecolor="none")
     name_title_team_txt = f"Drafted: {rookie_context['draft_year']}.{rookie_context['draft_pick']} ({team_context['abbreviation'].upper()})" \
       if rookie_context else f"{team_context['name']}"
-    
+
     name_title_txt_box_text = \
       f"{player_full_name}\n" + name_title_team_txt
 
@@ -227,8 +228,13 @@ class GameShotPlot:
     plt.savefig(f"{self.local_img_location}/{export_filename}")
     storage_client.upload_object("nba-shot-plot-shot-plots", export_filename, self.local_img_location)
     plt.close(fig)
-    # TODO: method for _clean_up_tmp_files (team and player images)
-    
+
+    for file in [f"{self.local_img_location}/{player_slug}.png", f"{self.local_img_location}/{team_context['abbreviation']}.png"]:
+      try:
+        os.remove(file)
+      except:
+        pass
+
     return f"{self.local_img_location}/{export_filename}"
 
   def _build_court(self):
@@ -256,9 +262,6 @@ class GameShotPlot:
   def _get_team_stats(self, boxscore_data):
     return boxscore_data["awayTeam"] if boxscore_data["awayTeam"]["teamId"] == self.team_id else boxscore_data["homeTeam"]
 
-  # TODO: add activity to see if the chart should even be created
-  # Active = False
-  # Context?
   def _get_player_game_stats(self, team_stats):
     player_stats = [player for player in team_stats["players"] if player['personId'] == self.player_id][0]
     plus_minus = int(player_stats["statistics"]["plusMinusPoints"])
@@ -270,10 +273,11 @@ class GameShotPlot:
       str_plus_minus = str(plus_minus)
 
     top_stats = {
-      "minutes": re.sub(r'[a-zA-Z]', '', player_stats["statistics"]["minutesCalculated"]),
+      "minutes": int(re.sub(r'[a-zA-Z]', '', player_stats["statistics"]["minutesCalculated"])),
       "starting": 'Yes' if player_stats["starter"] == '1' else 'No',
-      "plus_minus": str_plus_minus, 
+      "plus_minus": str_plus_minus,
       "points": player_stats["statistics"]["points"],
+      "status": player_stats["status"]
     }
 
     bottom_stats = [
@@ -297,9 +301,9 @@ class GameShotPlot:
     player_fgs_made     = player_data['statistics']['fieldGoalsMade']
     player_fgs_attempts = player_data['statistics']['fieldGoalsAttempted']
     player_3fgs_made    = player_data['statistics']['threePointersMade']
-    
+
     effective_field_goal_perc = (player_fgs_made + 0.5 * player_3fgs_made) / player_fgs_attempts
-    
+
     return str(int(round(effective_field_goal_perc * 100, 0)))
 
   def _calc_usage_rate(self, team_data, player_data):
@@ -307,7 +311,7 @@ class GameShotPlot:
     player_fts  = int(player_data['statistics']['freeThrowsAttempted'])
     player_tos  = int(player_data['statistics']['turnovers'])
     player_mins = int(re.sub(r'[a-zA-Z]', '', player_data["statistics"]["minutesCalculated"]))
-    
+
     team_fgs  = int(team_data['statistics']['fieldGoalsAttempted'])
     team_fts  = int(team_data['statistics']['freeThrowsAttempted'])
     team_tos  = int(team_data['statistics']['turnovers'])
@@ -319,20 +323,20 @@ class GameShotPlot:
     return str(int(round(usage_percentage * 100, 0)))
 
 
-if __name__ == "__main__":  
+if __name__ == "__main__":
   game_id = "0022100584"
   player_id = 1627832 # fred vanvleet
   team_id = 1610612761
 
-  team_abbreviations = [team["abbreviation"] for team in teams]
-
-  for abbr in team_abbreviations:
-    chart = GameShotPlot(
-      game_id = game_id,
-      player_id = player_id,
-      team_id = team_id
-    )
-    chart.build()
+  start = datetime.now()
+  chart = GameShotPlot(
+    game_id = game_id,
+    player_id = player_id,
+    team_id = team_id
+  )
+  x = chart.build()
+  print(f"{datetime.now() - start}")
+  print(x)
 
 # should i have a helper class to isolate player's stats for a specific game? GameStats (player_id, game_id)
 # maybe? if i feel like it's going to be reused; but right now it's not
