@@ -7,9 +7,9 @@ import json
 import os
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-from numpy import random
 import re
-import time
+
+from helpers.delay import delay_between_1_and_2_secs
 
 from services.google_storage_handler import GoogleStorageHandler
 
@@ -60,7 +60,7 @@ class GameShotPlot:
     mpl.rcParams['font.weight'] = "bold"
     mpl.rcParams['font.family'] = "McLaren"
 
-    self._delay_api_request()
+    delay_between_1_and_2_secs()
     shot_json = shotchartdetail.ShotChartDetail(
       team_id = self.team_id,
       player_id = self.player_id,
@@ -248,7 +248,7 @@ class GameShotPlot:
     return re.sub(r'[^a-z-]', '', full_name.lower().replace(" ", "-"))
 
   def _get_game_boxscore(self):
-    self._delay_api_request()
+    delay_between_1_and_2_secs()
     data = boxscore.BoxScore(self.game_id)
     return data.game.get_dict()
 
@@ -271,8 +271,6 @@ class GameShotPlot:
     plus_minus = int(player_stats["statistics"]["plusMinusPoints"])
     if plus_minus > 0:
       str_plus_minus = f"+{str(plus_minus)}"
-    elif plus_minus < 0:
-      str_plus_minus = f"-{str(plus_minus)}"
     else:
       str_plus_minus = str(plus_minus)
 
