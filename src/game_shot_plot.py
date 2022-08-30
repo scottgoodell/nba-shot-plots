@@ -8,19 +8,23 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import re
 
+from services.google_storage_handler import GoogleStorageHandler
+
 from static.colors import colors
 from static.teams import teams
 from static.rookies import rookies
 
 class GameShotPlot:
 
-  def __init__(self, game_id, player_id, team_id, shot_type = "FGA", season = "2021-22", season_part = "Regular Season") -> None:
-    self.game_id     = game_id
-    self.player_id   = player_id
-    self.team_id     = team_id
-    self.shot_type   = shot_type
-    self.season      = season
-    self.season_part = season_part
+  # TODO: add a method to add tweet text that is outside the chart
+  def __init__(self, game_id, player_id, team_id, shot_type = "FGA", season = "2020-21", season_part = "Regular Season") -> None:
+    self.game_id            = game_id
+    self.player_id          = player_id
+    self.team_id            = team_id
+    self.shot_type          = shot_type
+    self.season             = season
+    self.season_part        = season_part
+    self.local_img_location = "/tmp"
 
   def build(self):
     font_dir = ["./static/fonts/Lato", "./static/fonts/McLaren"]
@@ -29,12 +33,13 @@ class GameShotPlot:
       
     plt.switch_backend('Agg')
 
-    export_path = "./generated/game" # this could be abstracted?
     court_color = colors["court_color"]
     background_color = colors["chart_background"]
     chart_text_color = colors["chart_text"]
     lines_width = 1.5 # const?
     lines_opacity = 0.85 # const?
+
+    storage_client = GoogleStorageHandler()
 
     team_context = [t for t in teams if t["id"] == self.team_id][0]
     court_color = court_color
@@ -60,8 +65,10 @@ class GameShotPlot:
     player_full_name = player_context["full_name"]
     player_slug = self._player_slug(player_full_name)
 
-    player_img = plt.imread(f"./images/players/{player_slug}.png") # this should come from players.json
-    team_img = plt.imread(f"./images/teams/{team_context['abbreviation']}.png")
+    storage_client.download_object("nba-shot-plot-player-images", f"{player_slug}.png", self.local_img_location)
+    storage_client.download_object("nba-shot-plot-team-images", f"{team_context['abbreviation']}.png", self.local_img_location)
+    player_img = plt.imread(f"{self.local_img_location}/{player_slug}.png")
+    team_img = plt.imread(f"{self.local_img_location}/{team_context['abbreviation']}.png")
 
     fig, court_ax = plt.subplots()
     fig.set_figheight(9)
@@ -134,6 +141,10 @@ class GameShotPlot:
 
     game_boxscore_data = self._get_game_boxscore()
     team_boxscore_data = self._get_team_stats(game_boxscore_data)
+    
+    # TODO: get this method higher up in the chain so we don't start creating the chart earlier than we need to
+    # We should be returning None if the player wasn't active so we don't create a blank chart
+    # How should we handle DNP Coach's vs. Injury?
     top_stats, bottom_stats = self._get_player_game_stats(team_boxscore_data)
     stat_count = 0
     for c in [0.32, 0.56, 0.77]:
@@ -210,13 +221,15 @@ class GameShotPlot:
     player_img_ax.imshow(player_img)
     player_img_ax.axis('off')
 
-    export_filename = f"{export_path}/{player_slug}-{team_context['abbreviation']}-{self.game_id}.png"
+    export_filename = f"{player_slug}-{team_context['abbreviation']}-{self.game_id}.png"
 
     plt.subplots_adjust(left=0.02, right=0.98, top=0.72, bottom=0.16)
-    plt.savefig(export_filename)
+    plt.savefig(f"{self.local_img_location}/{export_filename}")
+    storage_client.upload_object("nba-shot-plot-shot-plots", export_filename, self.local_img_location)
     plt.close(fig)
+    # TODO: method for _clean_up_tmp_files (team and player images)
     
-    return export_filename
+    return f"{self.local_img_location}/{export_filename}"
 
   def _build_court(self):
     # i feel like i should be able to pass around the figure somehow and the plt
@@ -243,6 +256,9 @@ class GameShotPlot:
   def _get_team_stats(self, boxscore_data):
     return boxscore_data["awayTeam"] if boxscore_data["awayTeam"]["teamId"] == self.team_id else boxscore_data["homeTeam"]
 
+  # TODO: add activity to see if the chart should even be created
+  # Active = False
+  # Context?
   def _get_player_game_stats(self, team_stats):
     player_stats = [player for player in team_stats["players"] if player['personId'] == self.player_id][0]
     plus_minus = int(player_stats["statistics"]["plusMinusPoints"])

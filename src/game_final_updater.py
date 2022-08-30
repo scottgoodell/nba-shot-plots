@@ -4,6 +4,8 @@ import json
 import os
 import pandas
 
+from services.google_storage_handler import GoogleStorageHandler
+
 
 class GameFinalUpdater:
 
@@ -15,6 +17,7 @@ class GameFinalUpdater:
 
   def update_game_finals(self):
     new_game_finals = []
+    storage_client = GoogleStorageHandler()
     games = self._get_scoreboard_json()
 
     for game in games:
@@ -23,6 +26,8 @@ class GameFinalUpdater:
 
         if game_update_context["new_final"]:
           new_game_finals.append(game_update_context)
+
+    storage_client.upload_object("nba-shot-plot-game-final-backup", "game_finals.csv")
 
     return new_game_finals
 
