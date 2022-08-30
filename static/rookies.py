@@ -5,7 +5,7 @@ rookies = [
     "name": "Paolo Banchero",
     "draft_year": 2022,
     "draft_pick": 1,
-    "team_id": 1610612753
+    "active": True
   },
   {
     "id": 1631096,
@@ -13,7 +13,7 @@ rookies = [
     "name": "Chet Holmgren",
     "draft_year": 2022,
     "draft_pick": 2,
-    "team_id": 1610612760
+    "active": False
   },
   {
     "id": 1631095,
@@ -21,7 +21,7 @@ rookies = [
     "name": "Jabari Smith Jr.",
     "draft_year": 2022,
     "draft_pick": 3,
-    "team_id": 1610612745
+    "active": True
   },
   {
     "id": 1631099,
@@ -29,7 +29,7 @@ rookies = [
     "name": "Keegan Murray",
     "draft_year": 2022,
     "draft_pick": 4,
-    "team_id": 1610612758
+    "active": True
   },
   {
     "id": 1631093,
@@ -37,7 +37,7 @@ rookies = [
     "name": "Jaden Ivey",
     "draft_year": 2022,
     "draft_pick": 5,
-    "team_id": 1610612765
+    "active": True
   },
   {
     "id": 1631097,
@@ -45,7 +45,7 @@ rookies = [
     "name": "Bennedict Mathurin",
     "draft_year": 2022,
     "draft_pick": 6,
-    "team_id": 1610612754
+    "active": True
   },
   {
     "id": 1629628,
@@ -53,6 +53,6 @@ rookies = [
     "name": "RJ Barrett",
     "draft_year": 2022,
     "draft_pick": 6,
-    "team_id": 1610612752
+    "active": True
   }
 ]
