@@ -1,4 +1,6 @@
 .env
 __pycache__
-# this is temp while setting up secrets
-app/tweeter.py
+
+game_finals.csv
+
+gcp-storage-service-account.json

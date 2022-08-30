@@ -1,6 +1,7 @@
 apscheduler
 bs4
 flask
+google-cloud-storage
 gunicorn
 matplotlib
 nba-api
