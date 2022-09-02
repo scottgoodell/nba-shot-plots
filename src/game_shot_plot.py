@@ -173,7 +173,7 @@ class GameShotPlot:
         a.axis('off')
         stat_count += 1
 
-    name_title_txt_ax = fig.add_axes([0.30, 0.86, 0.4, 0.1], anchor='SW', zorder=-1)
+    name_title_txt_ax = fig.add_axes([0.30, 0.87, 0.4, 0.1], anchor='SW', zorder=-1)
     name_title_txt_ax.set_xticks([])
     name_title_txt_ax.set_yticks([])
 
