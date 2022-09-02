@@ -19,11 +19,15 @@ from static.rookies import rookies
 
 class GameShotPlot:
 
-  # TODO: add a method to add tweet text that is outside the chart
-  def __init__(self, game_id, player_id, team_id, shot_type = "FGA", season = "2021-22", season_part = "Regular Season") -> None:
+  image_link = None
+  tweet_text = None
+
+  # TODO: add a category as an init variable to then know what json to import as well as what tweet text to build # use dictionary to track @ account
+  def __init__(self, game_id, player_id, team_id, category, shot_type = "FGA", season = "2021-22", season_part = "Regular Season") -> None:
     self.game_id            = game_id
     self.player_id          = player_id
     self.team_id            = team_id
+    self.category           = category
     self.shot_type          = shot_type
     self.season             = season
     self.season_part        = season_part
@@ -41,7 +45,7 @@ class GameShotPlot:
     top_stats, bottom_stats = self._get_player_game_stats(team_boxscore_data)
 
     if top_stats["status"] == "INACTIVE" or top_stats["minutes"] == 0:
-      return None
+      return
 
     font_dir = ["./static/fonts/Lato", "./static/fonts/McLaren"]
     for font in mpl.font_manager.findSystemFonts(font_dir):
@@ -200,23 +204,24 @@ class GameShotPlot:
     game_title_txt_ax.set_xticks([])
     game_title_txt_ax.set_yticks([])
 
-    game_info = self._get_game_info(game_boxscore_data)
+    game_info = self._get_game_info()
 
     game_title_txt_box_props = dict(facecolor=background_color, edgecolor="none")
     game_title_txt_box_text = \
       f"{game_info['game_date']}\n" + \
-      f"{game_info['away_team']}  ({game_info['away_score']})  vs.  {game_info['home_team']}  ({game_info['home_score']})\n" + \
-      f"Mins: {top_stats['minutes']}  Pts: {top_stats['points']}  +/-: {top_stats['plus_minus']}  Starting: {top_stats['starting']}"
+      f"{game_info['away_team_abbr']}  ({game_info['away_score']})  vs.  {game_info['home_team_abbr']}  ({game_info['home_score']})\n" + \
+      f"Mins: {top_stats['minutes']}  Pts: {top_stats['points']}  +/-: {top_stats['plus_minus']}  Starting: {top_stats['starting']}\n" + \
+      f"@NbaShotPlots" # TODO: change based on the category
 
     game_title_txt_ax.text(
       0.5, 0.5,
       game_title_txt_box_text,
-      fontsize=16,
+      fontsize=14,
       color=chart_text_color,
       ha="center",
       va="center",
       bbox=game_title_txt_box_props,
-      linespacing=1.5,
+      linespacing=1.4,
     )
     game_title_txt_ax.set_facecolor(background_color)
     game_title_txt_ax.axis('off')
@@ -238,11 +243,31 @@ class GameShotPlot:
       except:
         pass
 
-    return f"{self.local_img_location}/{export_filename}"
+    self.image_link = f"{self.local_img_location}/{export_filename}"
+    self.tweet_text = self._build_tweet_text(
+      player_game_stats = {
+        "top_stats": top_stats,
+        "bottom_stats": bottom_stats
+      },
+      player_context = player_context,
+      team_context = team_context,
+      game_info = game_info
+    )
 
   def _build_court(self):
     # i feel like i should be able to pass around the figure somehow and the plt
     pass
+
+  def _build_tweet_text(self, player_game_stats: dict, player_context, team_context, game_info):
+
+    return f"Player: {player_context['full_name']}\n" \
+      f"Team: {team_context['name']} #GoRaps\n" \
+      f"Final: {game_info['away_team_name']} {game_info['away_score']} // {game_info['home_team_name']} {game_info['home_score']}\n" \
+      f"#{game_info['away_team_abbr']}vs{game_info['home_team_abbr']} // #{game_info['home_team_abbr']}vs{game_info['away_team_abbr']}\n\n" \
+      f"Minutes: {player_game_stats['top_stats']['minutes']}\n" \
+      f"Points: {player_game_stats['top_stats']['points']}\n" \
+      f"Field Goals: {player_game_stats['bottom_stats'][0].split(':')[-1].strip()}\n" \
+      f"Threes: {player_game_stats['bottom_stats'][1].split(':')[-1].strip()}\n\n"
 
   def _player_slug(self, full_name):
     return re.sub(r'[^a-z-]', '', full_name.lower().replace(" ", "-"))
@@ -252,15 +277,17 @@ class GameShotPlot:
     data = boxscore.BoxScore(self.game_id)
     return data.game.get_dict()
 
-  def _get_game_info(self, boxscore_data):
+  def _get_game_info(self):
     boxscore_data = self._get_game_boxscore()
 
     return {
       "game_date": datetime.strptime(boxscore_data["gameTimeHome"][:19], '%Y-%m-%dT%H:%M:%S').strftime("%A, %m/%d/%Y"),
-      "away_team": boxscore_data["awayTeam"]["teamTricode"],
+      "away_team_abbr": boxscore_data["awayTeam"]["teamTricode"],
       "away_score": boxscore_data["awayTeam"]["score"],
-      "home_team": boxscore_data["homeTeam"]["teamTricode"],
+      "away_team_name": boxscore_data["awayTeam"]["teamName"],
+      "home_team_abbr": boxscore_data["homeTeam"]["teamTricode"],
       "home_score": boxscore_data["homeTeam"]["score"],
+      "home_team_name": boxscore_data["homeTeam"]["teamName"],
     }
 
   def _get_team_stats(self, boxscore_data):
@@ -324,9 +351,6 @@ class GameShotPlot:
 
     return str(int(round(usage_percentage * 100, 0)))
 
-  def _delay_api_request(self):
-    return time.sleep(random.uniform(1,2))
-
 
 if __name__ == "__main__":
   game_id = "0022100584"
@@ -337,12 +361,11 @@ if __name__ == "__main__":
   chart = GameShotPlot(
     game_id = game_id,
     player_id = player_id,
-    team_id = team_id
+    team_id = team_id,
+    category = "rookie"
   )
-  x = chart.build()
+  chart.build()
   print(f"{datetime.now() - start}")
-  print(x)
-
 # should i have a helper class to isolate player's stats for a specific game? GameStats (player_id, game_id)
 # maybe? if i feel like it's going to be reused; but right now it's not
 

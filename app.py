@@ -24,11 +24,17 @@ def poll_games():
 
         for player in players_for_charts:
           print(f"Generating chart for player: {player['player_id']} team: {player['team_id']}..")
-          img_link = build_chart(team_id = player["team_id"], player_id = player["player_id"], game_id = game["game_id"])
+          img_link, tweet_txt = build_chart(
+            team_id = player["team_id"],
+            player_id = player["player_id"],
+            game_id = game["game_id"],
+            category = player["category"]
+          )
           if img_link:
             print(f"Finished generating chart with link: {img_link}")
             print(f"Sending tweet with newly created img: {img_link}")
-            # send_tweet(media_link = img_link)
+            send_tweet(media_link = img_link, tweet_text = tweet_txt)
+
             try:
               os.remove(img_link)
             except:
@@ -36,15 +42,16 @@ def poll_games():
   else:
     print("No new games recently finished")
 
-def build_chart(team_id, player_id, game_id):
-  chart = GameShotPlot(team_id = team_id, player_id = player_id, game_id = game_id)
-  img_link = chart.build()
+def build_chart(team_id, player_id, game_id, category):
+  chart = GameShotPlot(team_id = team_id, player_id = player_id, game_id = game_id, category = category)
+  chart.build()
 
-  return img_link
+  return [chart.image_link, chart.tweet_text]
 
-def send_tweet(media_link, account = "foobar"):
+# use dictionary to get account based on category
+def send_tweet(media_link, account = "foobar", tweet_text = ""):
   tweeter = Tweeter()
-  tweeter.send_tweet(media_link)
+  tweeter.send_tweet(tweet_text = tweet_text, media_link = media_link)
 
 @app.route("/")
 def hello_hunty():
@@ -58,7 +65,7 @@ def manual_poll():
     "status": 200
   }
 
-scheduler.add_job(poll_games, 'interval', seconds=10)
+scheduler.add_job(poll_games, 'interval', seconds=30)
 scheduler.start()
 
 

@@ -3,6 +3,7 @@ import os
 import tweepy
 
 
+# TODO: Take in account type to get the correct credentials
 class Tweeter():
 
    def __init__(self) -> None:
@@ -18,7 +19,7 @@ class Tweeter():
       )
       self.api = tweepy.API(self.auth, wait_on_rate_limit=True)
 
-   def send_tweet(self, media_link, tweet_text = "hello loon"):
+   def send_tweet(self, media_link, tweet_text):
       media = self.api.media_upload(media_link)
       self.api.update_status(tweet_text, media_ids=[media.media_id_string])
 

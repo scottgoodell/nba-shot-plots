@@ -60,6 +60,57 @@
            },
            "gameLeaders": {},
            "pbOdds": {}
+        },
+        {
+            "gameId":"0022000186",
+            "gameCode":"20210115/ATLUTA",
+            "gameStatus":3,
+            "gameStatusText":"Final",
+            "period":4,
+            "gameClock":"",
+            "gameTimeUTC":"2021-01-16T00:30:00Z",
+            "gameEt":"2021-01-15T19:30:00Z",
+            "regulationPeriods":4,
+            "seriesGameNumber":"",
+            "seriesText":"",
+            "homeTeam":{
+               "teamId":1610612762,
+               "teamName":"Jazz",
+               "teamCity":"Utah",
+               "teamTricode":"UTA",
+               "wins":6,
+               "losses":7,
+               "score":106,
+               "inBonus":"None",
+               "timeoutsRemaining":1,
+               "periods":[
+                  {
+                     "period":1,
+                     "periodType":"REGULAR",
+                     "score":28
+                  }
+               ]
+            },
+            "awayTeam":{
+               "teamId":1610612737,
+               "teamName":"Hawks",
+               "teamCity":"Atlanta",
+               "teamTricode":"ATL",
+               "wins":6,
+               "losses":7,
+               "score":106,
+               "inBonus":"None",
+               "timeoutsRemaining":1,
+               "periods":[
+                  {
+                     "period":1,
+                     "periodType":"REGULAR",
+                     "score":28
+                  }
+               ]
+            },
+            "gameLeaders": {},
+            "pbOdds": {}
         }
      ]
   }
