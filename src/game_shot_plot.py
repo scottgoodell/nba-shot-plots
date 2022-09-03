@@ -13,6 +13,7 @@ from helpers.delay import delay_between_1_and_2_secs
 
 from services.google_storage_handler import GoogleStorageHandler
 
+from static.categories import categories
 from static.colors import colors
 from static.teams import teams
 from static.rookies import rookies
@@ -22,7 +23,6 @@ class GameShotPlot:
   image_link = None
   tweet_text = None
 
-  # TODO: add a category as an init variable to then know what json to import as well as what tweet text to build # use dictionary to track @ account
   def __init__(self, game_id, player_id, team_id, category, shot_type = "FGA", season = "2021-22", season_part = "Regular Season") -> None:
     self.game_id            = game_id
     self.player_id          = player_id
@@ -211,7 +211,7 @@ class GameShotPlot:
       f"{game_info['game_date']}\n" + \
       f"{game_info['away_team_abbr']}  ({game_info['away_score']})  vs.  {game_info['home_team_abbr']}  ({game_info['home_score']})\n" + \
       f"Mins: {top_stats['minutes']}  Pts: {top_stats['points']}  +/-: {top_stats['plus_minus']}  Starting: {top_stats['starting']}\n" + \
-      f"@NbaShotPlots" # TODO: change based on the category
+      f"{categories[self.category]['twitter_handle']}"
 
     game_title_txt_ax.text(
       0.5, 0.5,
