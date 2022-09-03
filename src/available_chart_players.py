@@ -6,7 +6,7 @@ from nba_api.stats.endpoints import commonteamroster
 from helpers.delay import delay_between_1_and_2_secs
 
 
-PLAYER_CATEGORIES = ["rookies"]
+PLAYER_CATEGORIES = ["rookies", "sophomores"]
 
 def available_chart_players(team_id):
 
