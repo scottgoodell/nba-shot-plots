@@ -1,3 +1,4 @@
+import importlib
 from nba_api.live.nba.endpoints import boxscore
 from nba_api.stats.endpoints import shotchartdetail
 import nba_api.stats.static.players as players
@@ -10,13 +11,10 @@ import matplotlib.pyplot as plt
 import re
 
 from helpers.delay import delay_between_1_and_2_secs
-
 from services.google_storage_handler import GoogleStorageHandler
-
-from static.categories import categories
+from static.player_categories import player_categories
 from static.colors import colors
 from static.teams import teams
-from static.rookies import rookies
 
 class GameShotPlot:
 
@@ -177,12 +175,8 @@ class GameShotPlot:
     name_title_txt_ax.set_xticks([])
     name_title_txt_ax.set_yticks([])
 
-    rookie_context_list = [r for r in rookies if r["id"] == self.player_id]
-    rookie_context = rookie_context_list[0] if len(rookie_context_list) != 0 else None
-
     name_title_txt_box_props = dict(facecolor=background_color, edgecolor="none")
-    name_title_team_txt = f"Drafted: {rookie_context['draft_year']}.{rookie_context['draft_pick']} ({team_context['abbreviation'].upper()})" \
-      if rookie_context else f"{team_context['name']}"
+    name_title_team_txt = self._name_title_txt_by_category(team_context)
 
     name_title_txt_box_text = \
       f"{player_full_name}\n" + name_title_team_txt
@@ -211,7 +205,7 @@ class GameShotPlot:
       f"{game_info['game_date']}\n" + \
       f"{game_info['away_team_abbr']}  ({game_info['away_score']})  vs.  {game_info['home_team_abbr']}  ({game_info['home_score']})\n" + \
       f"Mins: {top_stats['minutes']}  Pts: {top_stats['points']}  +/-: {top_stats['plus_minus']}  Starting: {top_stats['starting']}\n" + \
-      f"{categories[self.category]['twitter_handle']}"
+      f"{player_categories[self.category]['twitter_handle']}"
 
     game_title_txt_ax.text(
       0.5, 0.5,
@@ -351,8 +345,22 @@ class GameShotPlot:
 
     return str(int(round(usage_percentage * 100, 0)))
 
+  def _name_title_txt_by_category(self, team_context):
+    if self.category in ["rookies", "sophomores"]:
+      category_context_module = getattr(importlib.import_module(f"static.{self.category}"), self.category)
+      category_context = [p for p in category_context_module if p["id"] == self.player_id][0]
+
+      return f"Drafted: {category_context['draft_year']}.{category_context['draft_pick']} ({team_context['abbreviation'].upper()})"
+    else:
+      return f"{team_context['name']}"
 
 if __name__ == "__main__":
+  # sophomores check
+  # game_id = "0022101154"
+  # player_id = 1630224 # jalen green
+  # team_id = 1610612745
+  
+  # veterans check
   game_id = "0022100584"
   player_id = 1627832 # fred vanvleet
   team_id = 1610612761
@@ -362,7 +370,8 @@ if __name__ == "__main__":
     game_id = game_id,
     player_id = player_id,
     team_id = team_id,
-    category = "rookie"
+    # category = "sophomores",
+    category = "veterans",
   )
   chart.build()
   print(f"{datetime.now() - start}")

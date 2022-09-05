@@ -46,13 +46,5 @@ rookies = [
     "draft_year": 2022,
     "draft_pick": 6,
     "active": True
-  },
-  {
-    "id": 1629628,
-    "slug": "rj-barrett",
-    "name": "RJ Barrett",
-    "draft_year": 2022,
-    "draft_pick": 6,
-    "active": True
   }
 ]
