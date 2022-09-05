@@ -247,7 +247,7 @@ teams = [
     "name": "Washington Wizards",
     "abbreviation": "was",
     "coordinates": [-260, 260, -30, 490],
-    "court_color": "#ffd0d0", # try blue and red?
+    "court_color": "#ffd0d0",
     "lines_color": "#00003f",
     "logo_opacity": 0.1
   },
