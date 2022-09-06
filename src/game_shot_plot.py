@@ -204,7 +204,7 @@ class GameShotPlot:
     game_title_txt_box_text = \
       f"{game_info['game_date']}\n" + \
       f"{game_info['away_team_abbr']}  ({game_info['away_score']})  vs.  {game_info['home_team_abbr']}  ({game_info['home_score']})\n" + \
-      f"Mins: {top_stats['minutes']}  Pts: {top_stats['points']}  +/-: {top_stats['plus_minus']}  Starting: {top_stats['starting']}\n" + \
+      f"Mins: {top_stats['minutes']},  Pts: {top_stats['points']},  +/-: {top_stats['plus_minus']},  Starting: {top_stats['starting']}\n" + \
       f"{player_categories[self.category]['twitter_handle']}"
 
     game_title_txt_ax.text(
@@ -254,14 +254,16 @@ class GameShotPlot:
 
   def _build_tweet_text(self, player_game_stats: dict, player_context, team_context, game_info):
 
-    return f"Player: {player_context['full_name']}\n" \
-      f"Team: {team_context['name']} #GoRaps\n" \
+    # TODO: Make sure use actual hashtags from team context
+    return f"{player_context['full_name']}\n" \
+      f"{team_context['name']} #GoRaps\n\n" \
       f"Final: {game_info['away_team_name']} {game_info['away_score']} // {game_info['home_team_name']} {game_info['home_score']}\n" \
       f"#{game_info['away_team_abbr']}vs{game_info['home_team_abbr']} // #{game_info['home_team_abbr']}vs{game_info['away_team_abbr']}\n\n" \
       f"Minutes: {player_game_stats['top_stats']['minutes']}\n" \
       f"Points: {player_game_stats['top_stats']['points']}\n" \
-      f"Field Goals: {player_game_stats['bottom_stats'][0].split(':')[-1].strip()}\n" \
-      f"Threes: {player_game_stats['bottom_stats'][1].split(':')[-1].strip()}\n\n"
+      f"Shots: {player_game_stats['bottom_stats'][0].split(':')[-1].strip()}\n" \
+      f"Threes: {player_game_stats['bottom_stats'][1].split(':')[-1].strip()}\n" \
+      f"Frees: {player_game_stats['bottom_stats'][2].split(':')[-1].strip()}\n"
 
   def _player_slug(self, full_name):
     return re.sub(r'[^a-z-]', '', full_name.lower().replace(" ", "-"))
@@ -359,7 +361,7 @@ if __name__ == "__main__":
   game_id = "0022101154"
   player_id = 1630224 # jalen green
   team_id = 1610612745
-  
+
   # veterans check
   # game_id = "0022100584"
   # player_id = 1627832 # fred vanvleet
