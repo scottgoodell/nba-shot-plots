@@ -1,4 +1,5 @@
 import importlib
+from services.tweeter import Tweeter
 from nba_api.live.nba.endpoints import boxscore
 from nba_api.stats.endpoints import shotchartdetail
 import nba_api.stats.static.players as players
@@ -352,7 +353,7 @@ class GameShotPlot:
       category_context_module = getattr(importlib.import_module(f"static.{self.category}"), self.category)
       category_context = [p for p in category_context_module if p["id"] == self.player_id][0]
 
-      return f"Drafted: {category_context['draft_year']}.{category_context['draft_pick']} ({team_context['abbreviation'].upper()})"
+      return f"Drafted: {category_context['draft_year']} #{category_context['draft_pick']} ({team_context['abbreviation'].upper()})"
     else:
       return f"{team_context['name']}"
 
@@ -377,6 +378,10 @@ if __name__ == "__main__":
   )
   chart.build()
   print(f"{datetime.now() - start}")
+
+  t = Tweeter()
+  t.send_tweet(media_link=chart.image_link, tweet_text=chart.tweet_text)
+
 # should i have a helper class to isolate player's stats for a specific game? GameStats (player_id, game_id)
 # maybe? if i feel like it's going to be reused; but right now it's not
 
