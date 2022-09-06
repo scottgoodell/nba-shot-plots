@@ -153,8 +153,8 @@ class GameShotPlot:
     court_ax.set_ylim(0, 470)
 
     stat_count = 0
-    for c in [0.32, 0.56, 0.77]:
-      for r in [0.10, 0.07, 0.04, 0.01]:
+    for c in [0.34, 0.58, 0.79]:
+      for r in [0.106, 0.072, 0.038, 0.004]:
         a = fig.add_axes([c, r, 0.16, 0.05], anchor='SW', zorder=-1)
         a.set_xticks([])
         a.set_yticks([])
@@ -215,12 +215,12 @@ class GameShotPlot:
       ha="center",
       va="center",
       bbox=game_title_txt_box_props,
-      linespacing=1.4,
+      linespacing=1.5,
     )
     game_title_txt_ax.set_facecolor(background_color)
     game_title_txt_ax.axis('off')
 
-    player_img_ax = fig.add_axes([0.0, 0.0, 0.3, 0.18], anchor='SW', zorder=-1)
+    player_img_ax = fig.add_axes([0.0, 0.0, 0.34, 0.18], anchor='SW', zorder=-1)
     player_img_ax.imshow(player_img)
     player_img_ax.axis('off')
 
@@ -356,22 +356,22 @@ class GameShotPlot:
 
 if __name__ == "__main__":
   # sophomores check
-  # game_id = "0022101154"
-  # player_id = 1630224 # jalen green
-  # team_id = 1610612745
+  game_id = "0022101154"
+  player_id = 1630224 # jalen green
+  team_id = 1610612745
   
   # veterans check
-  game_id = "0022100584"
-  player_id = 1627832 # fred vanvleet
-  team_id = 1610612761
+  # game_id = "0022100584"
+  # player_id = 1627832 # fred vanvleet
+  # team_id = 1610612761
 
   start = datetime.now()
   chart = GameShotPlot(
     game_id = game_id,
     player_id = player_id,
     team_id = team_id,
-    # category = "sophomores",
-    category = "veterans",
+    category = "sophomores",
+    # category = "veterans",
   )
   chart.build()
   print(f"{datetime.now() - start}")
