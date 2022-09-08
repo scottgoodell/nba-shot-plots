@@ -357,30 +357,6 @@ class GameShotPlot:
     else:
       return f"{team_context['name']}"
 
-if __name__ == "__main__":
-  # sophomores check
-  game_id = "0022101154"
-  player_id = 1630224 # jalen green
-  team_id = 1610612745
-
-  # veterans check
-  # game_id = "0022100584"
-  # player_id = 1627832 # fred vanvleet
-  # team_id = 1610612761
-
-  start = datetime.now()
-  chart = GameShotPlot(
-    game_id = game_id,
-    player_id = player_id,
-    team_id = team_id,
-    category = "sophomores",
-    # category = "veterans",
-  )
-  chart.build()
-  print(f"{datetime.now() - start}")
-
-  t = Tweeter()
-  t.send_tweet(media_link=chart.image_link, tweet_text=chart.tweet_text)
 
 # should i have a helper class to isolate player's stats for a specific game? GameStats (player_id, game_id)
 # maybe? if i feel like it's going to be reused; but right now it's not

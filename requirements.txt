@@ -1,5 +1,6 @@
 apscheduler
 bs4
+fire
 flask
 google-cloud-storage
 gunicorn
@@ -7,5 +8,6 @@ matplotlib
 nba-api
 numpy
 pandas
+python-dotenv
 requests
 tweepy
