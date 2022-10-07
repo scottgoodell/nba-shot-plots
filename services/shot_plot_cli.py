@@ -28,7 +28,7 @@ class ShotPlotCli:
     else:
       tweet_text = tweet_text = self.shot_plot.tweet_text
 
-    tweeter = Tweeter()
+    tweeter = Tweeter(self.shot_plot.category)
     tweeter.send_tweet(media_link = image_link, tweet_text = tweet_text)
 
 
@@ -41,6 +41,6 @@ if __name__ == "__main__":
   # game_id = "0022100584"
   # player_id = 1627832 # fred vanvleet
   # team_id = 1610612761
-  # category = "veterans"
+  # category = "league"
 
   fire.Fire(ShotPlotCli)

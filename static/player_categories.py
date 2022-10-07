@@ -5,7 +5,7 @@ player_categories = {
   "sophomores": {
     "twitter_handle": "@SophsShotPlots"
   },
-  "veterans": {
+  "league": {
     "twitter_handle": "@NbaShotPlots"
   }
 }

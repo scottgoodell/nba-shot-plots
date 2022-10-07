@@ -33,7 +33,7 @@ def poll_games():
           if img_link:
             print(f"Finished generating chart with link: {img_link}")
             print(f"Sending tweet with newly created img: {img_link}")
-            send_tweet(media_link = img_link, tweet_text = tweet_txt)
+            send_tweet(media_link = img_link, tweet_text = tweet_txt, account_type = player["category"])
 
             try:
               os.remove(img_link)
@@ -50,8 +50,8 @@ def build_chart(team_id, player_id, game_id, category):
   return [chart.image_link, chart.tweet_text]
 
 # use dictionary to get account based on category
-def send_tweet(media_link, account = "foobar", tweet_text = ""):
-  tweeter = Tweeter()
+def send_tweet(media_link, account_type, tweet_text):
+  tweeter = Tweeter(account_type)
   tweeter.send_tweet(tweet_text = tweet_text, media_link = media_link)
 
 def handle_tweet_form(form_response: dict):
@@ -69,7 +69,7 @@ def handle_tweet_form(form_response: dict):
   )
 
   full_tweet_text = f"{tweet_txt}\n{tweet_context}"
-  send_tweet(media_link = img_link, tweet_text = full_tweet_text)
+  send_tweet(media_link = img_link, tweet_text = full_tweet_text, account_type = category)
 
 @app.route("/")
 def index():

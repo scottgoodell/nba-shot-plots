@@ -1,5 +1,4 @@
 import importlib
-from services.tweeter import Tweeter
 from nba_api.live.nba.endpoints import boxscore
 from nba_api.stats.endpoints import shotchartdetail
 import nba_api.stats.static.players as players

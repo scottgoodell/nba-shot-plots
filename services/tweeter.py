@@ -1,18 +1,14 @@
-from dotenv import load_dotenv
-import os
 import tweepy
 
+from static.twitter_accounts import twitter_accounts
 
-# TODO: Take in account type to get the correct credentials
-class Tweeter():
+class Tweeter:
 
-   def __init__(self) -> None:
-      
-      load_dotenv()
-      self.access_token = os.environ["TWITTER_ACCESS_TOKEN"]
-      self.access_token_secret = os.environ["TWITTER_ACCESS_TOKEN_SECRET"]
-      self.consumer_key = os.environ["TWITTER_CONSUMER_KEY"]
-      self.consumer_secret = os.environ["TWITTER_CONSUMER_SECRET"]
+   def __init__(self, account_type) -> None:
+      self.access_token = twitter_accounts[account_type]["ACCESS_TOKEN"]
+      self.access_token_secret = twitter_accounts[account_type]["ACCESS_TOKEN_SECRET"]
+      self.consumer_key = twitter_accounts[account_type]["CONSUMER_KEY"]
+      self.consumer_secret = twitter_accounts[account_type]["CONSUMER_SECRET"]
 
       self.auth = tweepy.OAuth1UserHandler(
          self.consumer_key, self.consumer_secret, self.access_token, self.access_token_secret
