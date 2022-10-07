@@ -22,7 +22,7 @@ class GameShotPlot:
   image_link = None
   tweet_text = None
 
-  def __init__(self, game_id, player_id, team_id, category, shot_type = "FGA", season = "2021-22", season_part = "Regular Season") -> None:
+  def __init__(self, game_id, player_id, team_id, category, shot_type = "FGA", season = "2022-23", season_part = "Pre Season") -> None:
     self.game_id            = game_id
     self.player_id          = player_id
     self.team_id            = team_id
@@ -257,7 +257,7 @@ class GameShotPlot:
 
     # TODO: Make sure use actual hashtags from team context
     return f"{player_context['full_name']}\n" \
-      f"{team_context['name']} #GoRaps\n\n" \
+      f"{team_context['name']} {team_context['hashtag']}\n\n" \
       f"Final: {game_info['away_team_name']} {game_info['away_score']} // {game_info['home_team_name']} {game_info['home_score']}\n" \
       f"#{game_info['away_team_abbr']}vs{game_info['home_team_abbr']} // #{game_info['home_team_abbr']}vs{game_info['away_team_abbr']}\n\n" \
       f"Minutes: {player_game_stats['top_stats']['minutes']}\n" \
