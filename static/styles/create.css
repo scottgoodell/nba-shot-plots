@@ -1,0 +1,80 @@
+@font-face {
+  font-family: "McLaren-Regular";
+  src: url("../fonts/McLaren/McLaren-Regular.ttf");
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "McLaren-Regular";
+}
+
+.loginContainer{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  background-color: lightgray;
+  min-height: 100vh;
+  padding-bottom: 10%;
+}
+
+.loginItem1 {
+  font-size: 50px;
+  padding-bottom: 30px;
+  color: navy;
+}
+
+.loginInput {
+  border: solid #d7dfd8 1px;
+  padding: 15px;
+  font-size: 17px;
+  border-radius: 6px;
+  color: darkgray;
+}
+
+.loginButton {
+  background-color: navy;
+  border: none;
+  color: white;
+  padding: 15px;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 6px;
+  transition: 0.3s all;
+  cursor: pointer;
+}
+
+.formItem {
+  display: flex;
+  flex-direction: column;
+  /* width: 360px;
+  height: 210px; */
+  justify-content: space-around;
+  row-gap: 10px;
+}
+
+.loginItem2 {
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.1), -2px 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 20px;
+}
+
+input {
+  font-family: "McLaren-Regular";
+}
+
+textarea {
+  font-family: "McLaren-Regular";
+}
+
+button {
+  font-family: "McLaren-Regular";
+}

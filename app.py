@@ -1,5 +1,5 @@
 from apscheduler.schedulers.background import BackgroundScheduler
-from flask import Flask
+from flask import Flask, render_template, request
 import os
 
 from src.game_final_updater import GameFinalUpdater
@@ -38,6 +38,7 @@ def poll_games():
             try:
               os.remove(img_link)
             except:
+              print(f"Couldn't remove link for {img_link}..")
               pass
   else:
     print("No new games recently finished")
@@ -53,9 +54,41 @@ def send_tweet(media_link, account = "foobar", tweet_text = ""):
   tweeter = Tweeter()
   tweeter.send_tweet(tweet_text = tweet_text, media_link = media_link)
 
+def handle_tweet_form(form_response: dict):
+  game_id = form_response.get("game_id")
+  player_id = int(form_response.get("player_id"))
+  team_id = int(form_response.get("team_id"))
+  category = form_response.get("category").lower()
+  tweet_context = form_response.get("tweet_text")
+
+  img_link, tweet_txt = build_chart(
+    team_id = team_id,
+    player_id = player_id,
+    game_id = game_id,
+    category = category
+  )
+
+  full_tweet_text = f"{tweet_txt}\n{tweet_context}"
+  send_tweet(media_link = img_link, tweet_text = full_tweet_text)
+
 @app.route("/")
-def hello_hunty():
-  return "<p>Hello Hunty</p>"
+def index():
+  return render_template("index.html")
+
+@app.route("/create", methods=["GET", "POST"])
+def create():
+  if request.method == "POST":
+    print("Creating ad-hoc tweet from /create form")
+    try:
+      handle_tweet_form(request.form)
+      return render_template("tweet_success.html")
+    except Exception as e:
+      return {
+        "status": 500,
+        "message": f"Error creating tweet: {e}"
+      }
+  else:
+    return render_template("create.html")
 
 @app.route("/poll")
 def manual_poll():
@@ -65,9 +98,10 @@ def manual_poll():
     "status": 200
   }
 
-scheduler.add_job(poll_games, 'interval', seconds=30)
-scheduler.start()
+scheduler.add_job(poll_games, "interval", seconds=30)
+# scheduler.start()
 
 
 if __name__ == "__main__":
+  # Debug True for reload
   app.run(debug = False, port = 1234)

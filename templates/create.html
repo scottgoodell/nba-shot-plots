@@ -1,0 +1,25 @@
+<!-- Could prepopulate the fields instead of having to look up the ids (drop downs) -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Create</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/create.css') }}">
+  </head>
+  <body>
+    <div class="loginContainer">
+      <div class="loginItem loginItem1">
+        Create A Shot Plot Tweet
+      </div>
+      <div class="loginItem loginItem2">
+        <form action="/create" class="formItem" method="post">
+          <input class="loginInput" type="text" id="game_id" name="game_id" placeholder="Game Id" value="0012200028"></input>
+          <input class="loginInput" type="text" id="player_id" name="player_id" placeholder="Player Id" value="1630162"></input>
+          <input class="loginInput" type="text" id="team_id" name="team_id" placeholder="Team Id" value="1610612750"></input>
+          <input class="loginInput" type="text" id="category" name="category" placeholder="Category" value="veterans"></input>
+          <textarea class="loginInput" rows="4" cols="30" class="textArea" id="tweet_text" name="tweet_text" placeholder="Tweet Context">This is a test</textarea>
+          <button class="loginButton" type="submit">Submit</button>
+        </form>
+    </div>
+  </body>
+</html>
