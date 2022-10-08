@@ -1,16 +1,13 @@
 import importlib
-from nba_api.live.nba.endpoints import boxscore
-from nba_api.stats.endpoints import shotchartdetail
 import nba_api.stats.static.players as players
 
 from datetime import datetime
-import json
 import os
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import re
 
-from helpers.delay import delay_between_1_and_2_secs
+from helpers.data_pulls import get_game_boxscore, player_game_shot_data 
 from services.google_storage_handler import GoogleStorageHandler
 from static.colors import colors
 from static.defaults import Defaults
@@ -22,7 +19,7 @@ class GameShotPlot:
   image_link = None
   tweet_text = None
 
-  def __init__(self, game_id, player_id, team_id, category, shot_type = Defaults.shot_type, season = Defaults.season, season_part = Defaults.season_part) -> None:
+  def __init__(self, game_id, player_id, team_id, category, shot_type = Defaults.SHOT_TYPE, season = Defaults.SEASON, season_part = Defaults.SEASON_PART) -> None:
     self.game_id            = game_id
     self.player_id          = player_id
     self.team_id            = team_id
@@ -39,7 +36,7 @@ class GameShotPlot:
     lines_width = 1.5 # const?
     lines_opacity = 0.85 # const?
 
-    game_boxscore_data = self._get_game_boxscore()
+    game_boxscore_data = get_game_boxscore(self.game_id)
     team_boxscore_data = self._get_team_stats(game_boxscore_data)
     top_stats, bottom_stats = self._get_player_game_stats(team_boxscore_data)
 
@@ -63,18 +60,14 @@ class GameShotPlot:
     mpl.rcParams['font.weight'] = "bold"
     mpl.rcParams['font.family'] = "McLaren"
 
-    # abstract this to helpers
-    delay_between_1_and_2_secs()
-    shot_json = shotchartdetail.ShotChartDetail(
+    shot_values = player_game_shot_data(
       team_id = self.team_id,
       player_id = self.player_id,
-      game_id_nullable = self.game_id,
-      context_measure_simple = self.shot_type,
-      season_nullable = self.season,
-      season_type_all_star = self.season_part
+      game_id = self.game_id,
+      shot_type = self.shot_type,
+      season = self.season,
+      season_part = self.season_part
     )
-    shot_data = json.loads(shot_json.get_json())
-    shot_values = shot_data['resultSets'][0]['rowSet']
     game_shot_values = [[s[1], s[10], s[12], s[17], s[18]] for s in shot_values]
 
     player_context = players.find_player_by_id(self.player_id)
@@ -271,13 +264,8 @@ class GameShotPlot:
   def _player_slug(self, full_name):
     return re.sub(r'[^a-z-]', '', full_name.lower().replace(" ", "-"))
 
-  def _get_game_boxscore(self):
-    delay_between_1_and_2_secs()
-    data = boxscore.BoxScore(self.game_id)
-    return data.game.get_dict()
-
   def _get_game_info(self):
-    boxscore_data = self._get_game_boxscore()
+    boxscore_data = get_game_boxscore(self.game_id)
 
     return {
       "game_date": datetime.strptime(boxscore_data["gameTimeHome"][:19], '%Y-%m-%dT%H:%M:%S').strftime("%A, %m/%d/%Y"),
