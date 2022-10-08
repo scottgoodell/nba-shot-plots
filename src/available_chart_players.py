@@ -10,9 +10,10 @@ PLAYER_CATEGORIES = ["rookies", "sophomores"]
 
 def available_chart_players(team_id):
 
+  # abstract this to helpers
   def _get_team_roster_player_ids(team_id):
     delay_between_1_and_2_secs()
-    team_roster_response = commonteamroster.CommonTeamRoster(season = "2021-22", team_id = team_id)
+    team_roster_response = commonteamroster.CommonTeamRoster(season = "2022-23", team_id = team_id)
     team_roster_json = json.loads(team_roster_response.get_json())
     team_roster_data = team_roster_json["resultSets"][0]["rowSet"]
 
