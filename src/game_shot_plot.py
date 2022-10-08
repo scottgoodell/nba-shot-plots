@@ -12,8 +12,9 @@ import re
 
 from helpers.delay import delay_between_1_and_2_secs
 from services.google_storage_handler import GoogleStorageHandler
-from static.player_categories import player_categories
 from static.colors import colors
+from static.defaults import Defaults
+from static.player_categories import player_categories
 from static.teams import teams
 
 class GameShotPlot:
@@ -21,7 +22,7 @@ class GameShotPlot:
   image_link = None
   tweet_text = None
 
-  def __init__(self, game_id, player_id, team_id, category, shot_type = "FGA", season = "2022-23", season_part = "Pre Season") -> None:
+  def __init__(self, game_id, player_id, team_id, category, shot_type = Defaults.shot_type, season = Defaults.season, season_part = Defaults.season_part) -> None:
     self.game_id            = game_id
     self.player_id          = player_id
     self.team_id            = team_id
