@@ -66,13 +66,14 @@ class GameShotPlot:
     shot_json = shotchartdetail.ShotChartDetail(
       team_id = self.team_id,
       player_id = self.player_id,
+      game_id_nullable = self.game_id,
       context_measure_simple = self.shot_type,
       season_nullable = self.season,
       season_type_all_star = self.season_part
     )
     shot_data = json.loads(shot_json.get_json())
     shot_values = shot_data['resultSets'][0]['rowSet']
-    game_shot_values = [[s[1], s[10], s[12], s[17], s[18]] for s in shot_values if s[1] == self.game_id]
+    game_shot_values = [[s[1], s[10], s[12], s[17], s[18]] for s in shot_values]
 
     player_context = players.find_player_by_id(self.player_id)
     player_full_name = player_context["full_name"]
