@@ -24,9 +24,9 @@ class ShotPlotCli:
     self.shot_plot.build()
     image_link = self.shot_plot.image_link
     if self.tweet_context:
-      tweet_text = tweet_text = self.shot_plot.tweet_text + f"\n\n{self.tweet_context}"
+      tweet_text = self.shot_plot.tweet_text + f"\n{self.tweet_context}"
     else:
-      tweet_text = tweet_text = self.shot_plot.tweet_text
+      tweet_text = self.shot_plot.tweet_text
 
     tweeter = Tweeter(self.shot_plot.category)
     tweeter.send_tweet(media_link = image_link, tweet_text = tweet_text)
