@@ -62,6 +62,7 @@ class GameShotPlot:
     mpl.rcParams['font.weight'] = "bold"
     mpl.rcParams['font.family'] = "McLaren"
 
+    # abstract this to helpers
     delay_between_1_and_2_secs()
     shot_json = shotchartdetail.ShotChartDetail(
       team_id = self.team_id,
