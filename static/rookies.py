@@ -46,5 +46,13 @@ rookies = [
     "draft_year": 2022,
     "draft_pick": 6,
     "active": True
+  },
+  {
+    "id": 1631101,
+    "slug": "shaedon sharpe",
+    "name": "Shaedon Sharpe",
+    "draft_year": 2022,
+    "draft_pick": 7,
+    "active": True
   }
 ]
