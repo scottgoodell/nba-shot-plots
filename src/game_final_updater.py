@@ -1,6 +1,5 @@
+from helpers.data_pulls import get_game_boxscore, player_game_shot_data
 from nba_api.live.nba.endpoints import scoreboard
-from nba_api.stats.endpoints import commonteamroster
-from nba_api.stats.endpoints import shotchartdetail
 import csv
 import json
 import os
@@ -8,22 +7,23 @@ import pandas
 
 from helpers.delay import delay_between_1_and_2_secs
 from services.google_storage_handler import GoogleStorageHandler
+from static.defaults import Defaults
 
 
 class GameFinalUpdater:
 
   def __init__(self) -> None:
     self.csv_path = "./game_finals.csv"
-    self.season = "2022-23"
-    self.season_type = "Pre Season"
-    self.shot_type = "FGA"
+    self.season = Defaults.SEASON
+    self.season_part = Defaults.SEASON_PART
+    self.shot_type = Defaults.SHOT_TYPE
 
     self._init_game_finals_csv()
 
   def update_game_finals(self):
     new_game_finals = []
     storage_client = GoogleStorageHandler()
-    games = self._get_scoreboard_json()
+    games = self._get_scoreboard()
 
     for game in games:
       if game["gameStatusText"] == "Final":
@@ -45,8 +45,8 @@ class GameFinalUpdater:
     game_finals_df = pandas.read_csv(self.csv_path, dtype="str")
     unique_game_final_df = game_finals_df[game_finals_df["game_id"] == game_id]
 
-    away_shot_data_available = self._is_shot_data_available(game_id, away_team_id)
-    home_shot_data_available = self._is_shot_data_available(game_id, home_team_id)
+    away_shot_data_available = self._is_shot_data_available(game_id, away_team_id, "away")
+    home_shot_data_available = self._is_shot_data_available(game_id, home_team_id, "home")
 
     if unique_game_final_df.shape[0] == 1 or away_shot_data_available == False or home_shot_data_available == False:
       new_final = False
@@ -69,43 +69,42 @@ class GameFinalUpdater:
       "team_ids": team_ids
     }
 
-  def _get_scoreboard_json(self):
-    f = open(f"./fixtures/scoreboard_final.json")
-    data = json.load(f)
-    return data.get("scoreboard", {}).get("games", [])
+  # def _get_scoreboard_json(self):
+  #   f = open(f"./fixtures/scoreboard_final.json")
+  #   data = json.load(f)
+  #   return data.get("scoreboard", {}).get("games", [])
 
   def _get_scoreboard(self):
-    data = scoreboard.ScoreBoard()
+    delay_between_1_and_2_secs()
+    data = scoreboard.ScoreBoard().get_dict()
     return data.get("scoreboard", {}).get("games", [])
 
-  # get player_ids from team_id to loop through shotchartdetail
-  def _get_player_ids_from_team_id(self, team_id):
-    delay_between_1_and_2_secs()
-    team_roster_response = commonteamroster.CommonTeamRoster(season = "2022-23", team_id = team_id)
-    team_roster_json = json.loads(team_roster_response.get_json())
-    team_roster_data = team_roster_json["resultSets"][0]["rowSet"]
+  def _is_shot_data_available(self, game_id, team_id, team_type) -> bool:
+    boxscore_data = get_game_boxscore(game_id)
+    team_boxscore_data = boxscore_data[f"{team_type}Team"]["players"]
 
-    return [player[-1] for player in team_roster_data]
+    player_id = 0
+    shots_attempted = 0
+    for player in team_boxscore_data:
+      if player["statistics"]["fieldGoalsAttempted"] > shots_attempted:
+        shots_attempted = player["statistics"]["fieldGoalsAttempted"]
+        player_id = player["personId"]
 
-  # return true if the players shot datas are available - should just be at least one?
-  def _is_shot_data_available(self, game_id, team_id) -> bool:
-    player_ids = self._get_player_ids_from_team_id(team_id)
-    for player_id in player_ids:
-      delay_between_1_and_2_secs()
-      shot_json = shotchartdetail.ShotChartDetail(
-        team_id = team_id,
-        player_id = player_id,
-        game_id_nullable = game_id,
-        context_measure_simple = self.shot_type,
-        season_nullable = self.season,
-        season_type_all_star = self.season_part
-      )
-      shot_data = json.loads(shot_json.get_json())
-      shot_values = shot_data['resultSets'][0]['rowSet']
-      
-      if len(shot_values) > 0:
-        return True
-      
+    if player_id == 0:
+      return False
+
+    shot_values = player_game_shot_data(
+      team_id = team_id,
+      player_id = player_id,
+      game_id = game_id,
+      shot_type = self.shot_type,
+      season = self.season,
+      season_part = self.season_part
+    )
+
+    if len(shot_values) > 0:
+      return True
+
     return False
 
   def _init_game_finals_csv(self):

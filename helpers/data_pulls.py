@@ -12,6 +12,7 @@ def player_game_shot_data(
   season,
   season_part
 ):
+  print("Attempting to pull shot data")
   delay_between_1_and_2_secs()
   shot_json = shotchartdetail.ShotChartDetail(
     team_id = team_id,
