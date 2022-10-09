@@ -16,7 +16,7 @@ body {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  background-color: lightgray;
+  background-color: #e6e6e6;
   min-height: 100vh;
   padding-bottom: 10%;
 }
@@ -24,7 +24,7 @@ body {
 .loginItem1 {
   font-size: 50px;
   padding-bottom: 30px;
-  color: navy;
+  color: #900C3F;
 }
 
 .loginInput {
@@ -36,15 +36,19 @@ body {
 }
 
 .loginButton {
-  background-color: navy;
+  background-color: #900C3F;
   border: none;
   color: white;
   padding: 15px;
   font-size: 20px;
   font-weight: bold;
   border-radius: 6px;
-  transition: 0.3s all;
+  transition: 0.2s all;
   cursor: pointer;
+}
+
+.loginButton:hover {
+  background-color: #af3061;
 }
 
 .formItem {
