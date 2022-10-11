@@ -71,6 +71,13 @@ def handle_tweet_form(form_response: dict):
   full_tweet_text = f"{tweet_txt}\n{tweet_context}"
   send_tweet(media_link = img_link, tweet_text = full_tweet_text, account_type = category)
 
+@app.route("/ping")
+def ping():
+  return {
+    "status": 200,
+    "message": "pong" 
+  }
+
 @app.route("/")
 def index():
   return render_template("index.html")
