@@ -113,7 +113,7 @@ def manual_poll():
 
 
 scheduler.add_job(poll_games, "interval", minutes=30)
-# scheduler.start()
+scheduler.start()
 
 
 if __name__ == "__main__":
