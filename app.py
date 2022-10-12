@@ -1,4 +1,5 @@
 from apscheduler.schedulers.background import BackgroundScheduler
+from datetime import datetime
 from flask import Flask, render_template, request
 import os
 
@@ -111,8 +112,12 @@ def manual_poll():
     "status": 200
   }
 
+def cadence():
+  print(f"I'm alive at {datetime.now()}")
 
-scheduler.add_job(poll_games, "interval", minutes=30)
+
+scheduler.add_job(cadence, "interval", minutes=10)
+scheduler.add_job(poll_games, "interval", minutes=45)
 scheduler.start()
 
 
