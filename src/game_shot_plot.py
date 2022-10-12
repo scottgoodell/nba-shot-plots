@@ -333,6 +333,9 @@ class GameShotPlot:
     team_tos  = int(team_data['statistics']['turnovers'])
     team_mins = int(re.sub(r'[a-zA-Z]', '', team_data["statistics"]["minutesCalculated"]))
 
+    if player_mins == 0:
+      return "0"
+
     usage_percentage = ((player_fgs + (0.44 * player_fts) + player_tos) * (team_mins / 5)) \
     / (player_mins * (team_fgs + (.44 * team_fts) + team_tos))
 
