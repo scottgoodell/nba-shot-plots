@@ -41,14 +41,17 @@ class GameFinalUpdater:
     away_team_id = game["awayTeam"]["teamId"]
     home_team_id = game["homeTeam"]["teamId"]
     team_ids = [away_team_id, home_team_id]
+    away_shot_data_available = False
+    home_shot_data_available = False
 
     game_finals_df = pandas.read_csv(self.csv_path, dtype="str")
     unique_game_final_df = game_finals_df[game_finals_df["game_id"] == game_id]
 
-    away_shot_data_available = self._is_shot_data_available(game_id, away_team_id, "away")
-    home_shot_data_available = self._is_shot_data_available(game_id, home_team_id, "home")
+    if unique_game_final_df.shape[0] == 0:
+      away_shot_data_available = self._is_shot_data_available(game_id, away_team_id, "away")
+      home_shot_data_available = self._is_shot_data_available(game_id, home_team_id, "home")
 
-    if unique_game_final_df.shape[0] == 1 or away_shot_data_available == False or home_shot_data_available == False:
+    if away_shot_data_available == False or home_shot_data_available == False:
       new_final = False
     else:
       new_final = True

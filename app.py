@@ -13,26 +13,32 @@ app = Flask(__name__)
 
 def poll_games():
   print("Polling scoreboard and updating game finals")
+
   game_status_updater = GameFinalUpdater()
   new_game_finals = game_status_updater.update_game_finals()
+
   if len(new_game_finals) > 0:
     print("New game(s) have finished!")
     print("Checking to see if charts should be generated..")
+
     for game in new_game_finals:
       for team_id in game["team_ids"]:
         players_for_charts = available_chart_players(team_id)
 
         for player in players_for_charts:
           print(f"Generating chart for player: {player['player_id']} team: {player['team_id']}..")
+
           img_link, tweet_txt = build_chart(
             team_id = player["team_id"],
             player_id = player["player_id"],
             game_id = game["game_id"],
             category = player["category"]
           )
+
           if img_link:
             print(f"Finished generating chart with link: {img_link}")
             print(f"Sending tweet with newly created img: {img_link}")
+
             send_tweet(media_link = img_link, tweet_text = tweet_txt, account_type = player["category"])
 
             try:
@@ -41,7 +47,7 @@ def poll_games():
               print(f"Couldn't remove link for {img_link}..")
               pass
   else:
-    print("No new games recently finished")
+    print("No new games recently finished\n--")
 
 def build_chart(team_id, player_id, game_id, category):
   chart = GameShotPlot(team_id = team_id, player_id = player_id, game_id = game_id, category = category)
@@ -75,7 +81,7 @@ def handle_tweet_form(form_response: dict):
 def ping():
   return {
     "status": 200,
-    "message": "pong" 
+    "message": "pong"
   }
 
 @app.route("/")
@@ -104,6 +110,7 @@ def manual_poll():
   return {
     "status": 200
   }
+
 
 scheduler.add_job(poll_games, "interval", seconds=30)
 # scheduler.start()

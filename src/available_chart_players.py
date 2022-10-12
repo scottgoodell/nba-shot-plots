@@ -17,9 +17,10 @@ def available_chart_players(team_id):
     team_roster_json = json.loads(team_roster_response.get_json())
     team_roster_data = team_roster_json["resultSets"][0]["rowSet"]
 
-    return [player[-1] for player in team_roster_data]
+    return [player[-2] for player in team_roster_data]
   
   team_roster_player_ids = _get_team_roster_player_ids(team_id)
+
   chart_players = []
   for category in PLAYER_CATEGORIES:
     players_module = importlib.import_module(f"static.{category}")
