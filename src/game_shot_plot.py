@@ -79,7 +79,9 @@ class GameShotPlot:
     player_img = plt.imread(f"{self.local_img_location}/{player_slug}.png")
     team_img = plt.imread(f"{self.local_img_location}/{team_context['abbreviation']}.png")
 
-    fig, court_ax = plt.subplots()
+    fig = plt.figure(num=1, clear=True)
+    court_ax = fig.add_subplot()
+
     fig.set_figheight(9)
     fig.set_figwidth(5.5)
     court_ax.set_facecolor(court_color)
@@ -225,7 +227,6 @@ class GameShotPlot:
     plt.subplots_adjust(left=0.02, right=0.98, top=0.72, bottom=0.16)
     plt.savefig(f"{self.local_img_location}/{export_filename}")
     storage_client.upload_object("nba-shot-plot-shot-plots", export_filename, self.local_img_location)
-    plt.close(fig)
 
     for file in [f"{self.local_img_location}/{player_slug}.png", f"{self.local_img_location}/{team_context['abbreviation']}.png"]:
       try:
