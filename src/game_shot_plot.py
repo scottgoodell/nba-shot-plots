@@ -318,7 +318,7 @@ class GameShotPlot:
     player_fgs_attempts = player_data['statistics']['fieldGoalsAttempted']
     player_3fgs_made    = player_data['statistics']['threePointersMade']
 
-    effective_field_goal_perc = (player_fgs_made + 0.5 * player_3fgs_made) / player_fgs_attempts
+    effective_field_goal_perc = (player_fgs_made + 0.5 * player_3fgs_made) / player_fgs_attempts if player_fgs_attempts > 0 else 0.0
 
     return str(int(round(effective_field_goal_perc * 100, 0)))
 
