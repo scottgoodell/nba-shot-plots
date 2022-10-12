@@ -14,15 +14,8 @@ app = Flask(__name__)
 def poll_games():
   print("Polling scoreboard and updating game finals")
 
-  # game_status_updater = GameFinalUpdater()
-  # new_game_finals = game_status_updater.update_game_finals()
-  new_game_finals = [
-    {
-      "game_id": "0012200051",
-      "new_final": True,
-      "team_ids": [1610612757, 1610612744]
-    }
-  ]
+  game_status_updater = GameFinalUpdater()
+  new_game_finals = game_status_updater.update_game_finals()
 
   if len(new_game_finals) > 0:
     print("New game(s) have finished!")

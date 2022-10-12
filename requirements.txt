@@ -8,6 +8,7 @@ matplotlib
 nba-api
 numpy
 pandas
+pillow
 python-dotenv
 requests
 tweepy
