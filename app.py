@@ -19,34 +19,41 @@ def poll_games():
   new_game_finals = game_status_updater.update_game_finals()
 
   if len(new_game_finals) > 0:
-    print("New game(s) have finished!")
+    print("At least one new game has recently finished!")
     print("Checking to see if charts should be generated..")
 
     for game in new_game_finals:
       for team_id in game["team_ids"]:
         players_for_charts = available_chart_players(team_id)
 
-        for player in players_for_charts:
-          print(f"Generating chart for player: {player['player_id']} team: {player['team_id']}..")
+        if len(players_for_charts) > 0:
+          print(f"Found {len(players_for_charts)} players to chart for game: {game['game_id']}..")
+          
+          for player in players_for_charts:
+            print(f"Starting to generate chart for player: {player['player_id']} team: {player['team_id']} game: {game['game_id']}..")
 
-          img_link, tweet_txt = build_chart(
-            team_id = player["team_id"],
-            player_id = player["player_id"],
-            game_id = game["game_id"],
-            category = player["category"]
-          )
+            img_link, tweet_txt = build_chart(
+              team_id = player["team_id"],
+              player_id = player["player_id"],
+              game_id = game["game_id"],
+              category = player["category"]
+            )
 
-          if img_link:
-            print(f"Finished generating chart with link: {img_link}")
-            print(f"Sending tweet with newly created img: {img_link}")
+            if img_link:
+              print(f"Finished generating chart with link: {img_link}")
+              print(f"Sending tweet with newly created img: {img_link}")
 
-            send_tweet(media_link = img_link, tweet_text = tweet_txt, account_type = player["category"])
+              send_tweet(media_link = img_link, tweet_text = tweet_txt, account_type = player["category"])
 
-            try:
-              os.remove(img_link)
-            except:
-              print(f"Couldn't remove link for {img_link}..")
-              pass
+              try:
+                os.remove(img_link)
+              except:
+                print(f"Couldn't remove link for {img_link}..")
+                pass
+            else:
+              print(f"Skipping chart for player: {player['player_id']} team: {player['team_id']} game: {game['game_id']}..")
+        else:
+          print(f"No players found to chart for game: {game['game_id']}..")
   else:
     print("No new games recently finished\n--")
 
@@ -113,14 +120,13 @@ def manual_poll():
   }
 
 def cadence():
-  print(f"I'm alive at {datetime.now()}")
+  print(f"I'm alive at {datetime.now()}\n-")
 
 
 scheduler.add_job(cadence, "interval", minutes=10)
-scheduler.add_job(poll_games, "interval", minutes=45)
+scheduler.add_job(poll_games, "interval", minutes=30)
 scheduler.start()
 
 
 if __name__ == "__main__":
-  # Debug True for reload
   app.run(debug = False, port = 1234)

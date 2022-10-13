@@ -65,6 +65,7 @@ class GameFinalUpdater:
 
       df_new_row = game_finals_df.append(row, ignore_index = True)
       df_new_row.to_csv(self.csv_path, index = False)
+      print(f"Added new game with id: {game_id} to csv..")
 
     return {
       "game_id": game_id,
@@ -72,10 +73,10 @@ class GameFinalUpdater:
       "team_ids": team_ids
     }
 
-  # def _get_scoreboard_json(self):
-  #   f = open(f"./fixtures/scoreboard_final.json")
-  #   data = json.load(f)
-  #   return data.get("scoreboard", {}).get("games", [])
+  def _get_scoreboard_json(self):
+    f = open(f"./fixtures/scoreboard_final.json")
+    data = json.load(f)
+    return data.get("scoreboard", {}).get("games", [])
 
   def _get_scoreboard(self):
     delay_between_1_and_2_secs()
