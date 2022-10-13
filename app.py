@@ -120,7 +120,7 @@ def manual_poll():
   }
 
 def cadence():
-  print(f"I'm alive at {datetime.now()}\n-")
+  print(f"I'm alive at {datetime.now()}")
 
 
 scheduler.add_job(cadence, "interval", minutes=10)
