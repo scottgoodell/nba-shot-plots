@@ -53,7 +53,7 @@ def poll_games():
             else:
               print(f"Skipping chart for player: {player['player_id']} team: {player['team_id']} game: {game['game_id']}..")
         else:
-          print(f"No players found to chart for game: {game['game_id']}..")
+          print(f"No players found to chart for team: {team_id} within game: {game['game_id']}..")
   else:
     print("No new games recently finished\n--")
 
