@@ -269,16 +269,19 @@ class GameShotPlot:
     return re.sub(r'[^a-z-]', '', full_name.lower().replace(" ", "-"))
 
   def _get_game_info(self):
-    boxscore_data = get_game_boxscore(self.game_id)
+    game_summary = get_game_summary(self.game_id)
+    game_info = [game_info for game_info in game_summary if game_info["name"] == "LineScore"][0]
+    away_game_info = dict(zip(game_info["headers"], game_info["rowSet"][0]))
+    home_game_info = dict(zip(game_info["headers"], game_info["rowSet"][1]))
 
     return {
-      "game_date": datetime.strptime(boxscore_data["gameTimeHome"][:19], '%Y-%m-%dT%H:%M:%S').strftime("%A, %m/%d/%Y"),
-      "away_team_abbr": boxscore_data["awayTeam"]["teamTricode"],
-      "away_score": boxscore_data["awayTeam"]["score"],
-      "away_team_name": boxscore_data["awayTeam"]["teamName"],
-      "home_team_abbr": boxscore_data["homeTeam"]["teamTricode"],
-      "home_score": boxscore_data["homeTeam"]["score"],
-      "home_team_name": boxscore_data["homeTeam"]["teamName"],
+      "game_date": datetime.strptime(home_game_info["GAME_DATE_EST"], '%Y-%m-%dT%H:%M:%S').strftime("%A, %m/%d/%Y"),
+      "away_team_abbr": away_game_info["TEAM_ABBREVIATION"],
+      "away_team_name": away_game_info["TEAM_NICKNAME"],
+      "away_score": away_game_info["PTS"],
+      "home_team_abbr": home_game_info["TEAM_ABBREVIATION"],
+      "home_team_name": home_game_info["TEAM_NICKNAME"],
+      "home_score": home_game_info["PTS"],
     }
 
   def _get_team_stats(self, boxscore_data):

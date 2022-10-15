@@ -1,4 +1,4 @@
-from helpers.data_pulls import get_game_boxscore, player_game_shot_data
+from helpers.data_pulls import get_game_boxscore, get_game_summary, player_game_shot_data
 from nba_api.live.nba.endpoints import scoreboard
 import csv
 import json
@@ -90,6 +90,14 @@ class GameFinalUpdater:
     return data.get("scoreboard", {}).get("games", [])
 
   def _is_shot_data_available(self, game_id, team_id) -> bool:
+    game_summary = get_game_summary(game_id)
+
+    if len(game_summary[0]["rowSet"]) == 0:
+      return False
+
+    if "final" not in game_summary[0]["rowSet"][0][4].lower():
+      return False
+
     boxscore_data = get_game_boxscore(game_id)
 
     if len(boxscore_data[0]["rowSet"]) == 0:
