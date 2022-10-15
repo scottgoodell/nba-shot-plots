@@ -1,117 +1,922 @@
 {
-  "meta":{
-     "version":1,
-     "request":"https://nba-prod-us-east-1-mediaops-stats.s3.amazonaws.com/NBA/liveData/scoreboard/todaysScoreboard_00.json",
-     "time":"2021-01-16 11:11:39.1139",
-     "code":200
-  },
-  "scoreboard":{
-     "gameDate":"2021-01-15",
-     "leagueId":"00",
-     "leagueName":"National Basketball Association",
-     "games":[
-        {
-           "gameId":"0022000181",
-           "gameCode":"20210115/NYKCLE",
-           "gameStatus":3,
-           "gameStatusText":"Final",
-           "period":4,
-           "gameClock":"",
-           "gameTimeUTC":"2021-01-16T00:30:00Z",
-           "gameEt":"2021-01-15T19:30:00Z",
-           "regulationPeriods":4,
-           "seriesGameNumber":"",
-           "seriesText":"",
-           "homeTeam":{
-              "teamId":1610612739,
-              "teamName":"Cavaliers",
-              "teamCity":"Cleveland",
-              "teamTricode":"CLE",
-              "wins":6,
-              "losses":7,
-              "score":106,
-              "inBonus":"None",
-              "timeoutsRemaining":1,
-              "periods":[
-                 {
-                    "period":1,
-                    "periodType":"REGULAR",
-                    "score":28
-                 }
-              ]
-           },
-           "awayTeam":{
-              "teamId":1610612752,
-              "teamName":"Knicks",
-              "teamCity":"New York",
-              "teamTricode":"NYK",
-              "wins":5,
-              "losses":8,
-              "score":103,
-              "inBonus":"None",
-              "timeoutsRemaining":0,
-              "periods":[
-                 {
-                    "period":1,
-                    "periodType":"REGULAR",
-                    "score":25
-                 }
-              ]
-           },
-           "gameLeaders": {},
-           "pbOdds": {}
-        },
-        {
-            "gameId":"0022000186",
-            "gameCode":"20210115/ATLUTA",
-            "gameStatus":3,
-            "gameStatusText":"Final",
-            "period":4,
-            "gameClock":"",
-            "gameTimeUTC":"2021-01-16T00:30:00Z",
-            "gameEt":"2021-01-15T19:30:00Z",
-            "regulationPeriods":4,
-            "seriesGameNumber":"",
-            "seriesText":"",
-            "homeTeam":{
-               "teamId":1610612762,
-               "teamName":"Jazz",
-               "teamCity":"Utah",
-               "teamTricode":"UTA",
-               "wins":6,
-               "losses":7,
-               "score":106,
-               "inBonus":"None",
-               "timeoutsRemaining":1,
-               "periods":[
-                  {
-                     "period":1,
-                     "periodType":"REGULAR",
-                     "score":28
-                  }
-               ]
-            },
-            "awayTeam":{
-               "teamId":1610612737,
-               "teamName":"Hawks",
-               "teamCity":"Atlanta",
-               "teamTricode":"ATL",
-               "wins":6,
-               "losses":7,
-               "score":106,
-               "inBonus":"None",
-               "timeoutsRemaining":1,
-               "periods":[
-                  {
-                     "period":1,
-                     "periodType":"REGULAR",
-                     "score":28
-                  }
-               ]
-            },
-            "gameLeaders": {},
-            "pbOdds": {}
-        }
-     ]
-  }
+	"meta": {
+		"version": 1,
+		"request": "https://nba-prod-us-east-1-mediaops-stats.s3.amazonaws.com/NBA/liveData/scoreboard/todaysScoreboard_00.json",
+		"time": "2022-10-15 02:11:16.1116",
+		"code": 200
+	},
+	"scoreboard": {
+		"gameDate": "2022-10-14",
+		"leagueId": "00",
+		"leagueName": "National Basketball Association",
+		"games": [{
+			"gameId": "0012200062",
+			"gameCode": "20221014/HOUIND",
+			"gameStatus": 3,
+			"gameStatusText": "Final",
+			"period": 4,
+			"gameClock": "",
+			"gameTimeUTC": "2022-10-14T23:00:00Z",
+			"gameEt": "2022-10-14T19:00:00Z",
+			"regulationPeriods": 4,
+			"ifNecessary": false,
+			"seriesGameNumber": "",
+			"seriesText": "",
+			"homeTeam": {
+				"teamId": 1610612754,
+				"teamName": "Pacers",
+				"teamCity": "Indiana",
+				"teamTricode": "IND",
+				"wins": 2,
+				"losses": 2,
+				"score": 114,
+				"seed": null,
+				"inBonus": null,
+				"timeoutsRemaining": 0,
+				"periods": [{
+					"period": 1,
+					"periodType": "REGULAR",
+					"score": 29
+				}, {
+					"period": 2,
+					"periodType": "REGULAR",
+					"score": 31
+				}, {
+					"period": 3,
+					"periodType": "REGULAR",
+					"score": 32
+				}, {
+					"period": 4,
+					"periodType": "REGULAR",
+					"score": 22
+				}]
+			},
+			"awayTeam": {
+				"teamId": 1610612745,
+				"teamName": "Rockets",
+				"teamCity": "Houston",
+				"teamTricode": "HOU",
+				"wins": 3,
+				"losses": 1,
+				"score": 122,
+				"seed": null,
+				"inBonus": null,
+				"timeoutsRemaining": 1,
+				"periods": [{
+					"period": 1,
+					"periodType": "REGULAR",
+					"score": 39
+				}, {
+					"period": 2,
+					"periodType": "REGULAR",
+					"score": 42
+				}, {
+					"period": 3,
+					"periodType": "REGULAR",
+					"score": 22
+				}, {
+					"period": 4,
+					"periodType": "REGULAR",
+					"score": 19
+				}]
+			},
+			"gameLeaders": {
+				"homeLeaders": {
+					"personId": 1631097,
+					"name": "Bennedict Mathurin",
+					"jerseyNum": "00",
+					"position": "G-F",
+					"teamTricode": "IND",
+					"playerSlug": null,
+					"points": 18,
+					"rebounds": 5,
+					"assists": 3
+				},
+				"awayLeaders": {
+					"personId": 1630224,
+					"name": "Jalen Green",
+					"jerseyNum": "0",
+					"position": "G",
+					"teamTricode": "HOU",
+					"playerSlug": null,
+					"points": 33,
+					"rebounds": 1,
+					"assists": 3
+				}
+			},
+			"pbOdds": {
+				"team": null,
+				"odds": 0.0,
+				"suspended": 1
+			}
+		}, {
+			"gameId": "0012200063",
+			"gameCode": "20221014/CLEORL",
+			"gameStatus": 3,
+			"gameStatusText": "Final",
+			"period": 4,
+			"gameClock": "",
+			"gameTimeUTC": "2022-10-14T23:00:00Z",
+			"gameEt": "2022-10-14T19:00:00Z",
+			"regulationPeriods": 4,
+			"ifNecessary": false,
+			"seriesGameNumber": "",
+			"seriesText": "",
+			"homeTeam": {
+				"teamId": 1610612753,
+				"teamName": "Magic",
+				"teamCity": "Orlando",
+				"teamTricode": "ORL",
+				"wins": 4,
+				"losses": 1,
+				"score": 114,
+				"seed": null,
+				"inBonus": null,
+				"timeoutsRemaining": 1,
+				"periods": [{
+					"period": 1,
+					"periodType": "REGULAR",
+					"score": 26
+				}, {
+					"period": 2,
+					"periodType": "REGULAR",
+					"score": 26
+				}, {
+					"period": 3,
+					"periodType": "REGULAR",
+					"score": 30
+				}, {
+					"period": 4,
+					"periodType": "REGULAR",
+					"score": 32
+				}]
+			},
+			"awayTeam": {
+				"teamId": 1610612739,
+				"teamName": "Cavaliers",
+				"teamCity": "Cleveland",
+				"teamTricode": "CLE",
+				"wins": 1,
+				"losses": 3,
+				"score": 108,
+				"seed": null,
+				"inBonus": null,
+				"timeoutsRemaining": 0,
+				"periods": [{
+					"period": 1,
+					"periodType": "REGULAR",
+					"score": 25
+				}, {
+					"period": 2,
+					"periodType": "REGULAR",
+					"score": 30
+				}, {
+					"period": 3,
+					"periodType": "REGULAR",
+					"score": 25
+				}, {
+					"period": 4,
+					"periodType": "REGULAR",
+					"score": 28
+				}]
+			},
+			"gameLeaders": {
+				"homeLeaders": {
+					"personId": 1631094,
+					"name": "Paolo Banchero",
+					"jerseyNum": "5",
+					"position": "F",
+					"teamTricode": "ORL",
+					"playerSlug": null,
+					"points": 17,
+					"rebounds": 5,
+					"assists": 2
+				},
+				"awayLeaders": {
+					"personId": 1627747,
+					"name": "Caris LeVert",
+					"jerseyNum": "3",
+					"position": "G",
+					"teamTricode": "CLE",
+					"playerSlug": null,
+					"points": 15,
+					"rebounds": 4,
+					"assists": 3
+				}
+			},
+			"pbOdds": {
+				"team": null,
+				"odds": 0.0,
+				"suspended": 1
+			}
+		}, {
+			"gameId": "0012200064",
+			"gameCode": "20221014/BOSTOR",
+			"gameStatus": 3,
+			"gameStatusText": "Final/OT",
+			"period": 5,
+			"gameClock": "",
+			"gameTimeUTC": "2022-10-14T23:30:00Z",
+			"gameEt": "2022-10-14T19:30:00Z",
+			"regulationPeriods": 4,
+			"ifNecessary": false,
+			"seriesGameNumber": "",
+			"seriesText": "",
+			"homeTeam": {
+				"teamId": 1610612761,
+				"teamName": "Raptors",
+				"teamCity": "Toronto",
+				"teamTricode": "TOR",
+				"wins": 3,
+				"losses": 2,
+				"score": 137,
+				"seed": null,
+				"inBonus": null,
+				"timeoutsRemaining": 0,
+				"periods": [{
+					"period": 1,
+					"periodType": "REGULAR",
+					"score": 35
+				}, {
+					"period": 2,
+					"periodType": "REGULAR",
+					"score": 28
+				}, {
+					"period": 3,
+					"periodType": "REGULAR",
+					"score": 35
+				}, {
+					"period": 4,
+					"periodType": "REGULAR",
+					"score": 29
+				}, {
+					"period": 5,
+					"periodType": "OVERTIME",
+					"score": 10
+				}]
+			},
+			"awayTeam": {
+				"teamId": 1610612738,
+				"teamName": "Celtics",
+				"teamCity": "Boston",
+				"teamTricode": "BOS",
+				"wins": 2,
+				"losses": 2,
+				"score": 134,
+				"seed": null,
+				"inBonus": null,
+				"timeoutsRemaining": 0,
+				"periods": [{
+					"period": 1,
+					"periodType": "REGULAR",
+					"score": 36
+				}, {
+					"period": 2,
+					"periodType": "REGULAR",
+					"score": 30
+				}, {
+					"period": 3,
+					"periodType": "REGULAR",
+					"score": 32
+				}, {
+					"period": 4,
+					"periodType": "REGULAR",
+					"score": 29
+				}, {
+					"period": 5,
+					"periodType": "OVERTIME",
+					"score": 7
+				}]
+			},
+			"gameLeaders": {
+				"homeLeaders": {
+					"personId": 1628384,
+					"name": "O.G. Anunoby",
+					"jerseyNum": "3",
+					"position": "F",
+					"teamTricode": "TOR",
+					"playerSlug": null,
+					"points": 32,
+					"rebounds": 6,
+					"assists": 0
+				},
+				"awayLeaders": {
+					"personId": 1628369,
+					"name": "Jayson Tatum",
+					"jerseyNum": "0",
+					"position": "F-G",
+					"teamTricode": "BOS",
+					"playerSlug": null,
+					"points": 21,
+					"rebounds": 9,
+					"assists": 6
+				}
+			},
+			"pbOdds": {
+				"team": null,
+				"odds": 0.0,
+				"suspended": 1
+			}
+		}, {
+			"gameId": "0012200065",
+			"gameCode": "20221014/WASNYK",
+			"gameStatus": 3,
+			"gameStatusText": "Final",
+			"period": 4,
+			"gameClock": "",
+			"gameTimeUTC": "2022-10-14T23:30:00Z",
+			"gameEt": "2022-10-14T19:30:00Z",
+			"regulationPeriods": 4,
+			"ifNecessary": false,
+			"seriesGameNumber": "",
+			"seriesText": "",
+			"homeTeam": {
+				"teamId": 1610612752,
+				"teamName": "Knicks",
+				"teamCity": "New York",
+				"teamTricode": "NYK",
+				"wins": 3,
+				"losses": 1,
+				"score": 105,
+				"seed": null,
+				"inBonus": null,
+				"timeoutsRemaining": 0,
+				"periods": [{
+					"period": 1,
+					"periodType": "REGULAR",
+					"score": 30
+				}, {
+					"period": 2,
+					"periodType": "REGULAR",
+					"score": 22
+				}, {
+					"period": 3,
+					"periodType": "REGULAR",
+					"score": 31
+				}, {
+					"period": 4,
+					"periodType": "REGULAR",
+					"score": 22
+				}]
+			},
+			"awayTeam": {
+				"teamId": 1610612764,
+				"teamName": "Wizards",
+				"teamCity": "Washington",
+				"teamTricode": "WAS",
+				"wins": 1,
+				"losses": 3,
+				"score": 89,
+				"seed": null,
+				"inBonus": null,
+				"timeoutsRemaining": 1,
+				"periods": [{
+					"period": 1,
+					"periodType": "REGULAR",
+					"score": 19
+				}, {
+					"period": 2,
+					"periodType": "REGULAR",
+					"score": 23
+				}, {
+					"period": 3,
+					"periodType": "REGULAR",
+					"score": 30
+				}, {
+					"period": 4,
+					"periodType": "REGULAR",
+					"score": 17
+				}]
+			},
+			"gameLeaders": {
+				"homeLeaders": {
+					"personId": 1628973,
+					"name": "Jalen Brunson",
+					"jerseyNum": "11",
+					"position": "G",
+					"teamTricode": "NYK",
+					"playerSlug": null,
+					"points": 27,
+					"rebounds": 4,
+					"assists": 5
+				},
+				"awayLeaders": {
+					"personId": 1629060,
+					"name": "Rui Hachimura",
+					"jerseyNum": "8",
+					"position": "F",
+					"teamTricode": "WAS",
+					"playerSlug": null,
+					"points": 20,
+					"rebounds": 8,
+					"assists": 2
+				}
+			},
+			"pbOdds": {
+				"team": null,
+				"odds": 0.0,
+				"suspended": 1
+			}
+		}, {
+			"gameId": "0012200066",
+			"gameCode": "20221014/BKNMIN",
+			"gameStatus": 3,
+			"gameStatusText": "Final",
+			"period": 4,
+			"gameClock": "",
+			"gameTimeUTC": "2022-10-15T00:00:00Z",
+			"gameEt": "2022-10-14T20:00:00Z",
+			"regulationPeriods": 4,
+			"ifNecessary": false,
+			"seriesGameNumber": "",
+			"seriesText": "",
+			"homeTeam": {
+				"teamId": 1610612750,
+				"teamName": "Timberwolves",
+				"teamCity": "Minnesota",
+				"teamTricode": "MIN",
+				"wins": 4,
+				"losses": 1,
+				"score": 102,
+				"seed": null,
+				"inBonus": null,
+				"timeoutsRemaining": 1,
+				"periods": [{
+					"period": 1,
+					"periodType": "REGULAR",
+					"score": 22
+				}, {
+					"period": 2,
+					"periodType": "REGULAR",
+					"score": 27
+				}, {
+					"period": 3,
+					"periodType": "REGULAR",
+					"score": 27
+				}, {
+					"period": 4,
+					"periodType": "REGULAR",
+					"score": 26
+				}]
+			},
+			"awayTeam": {
+				"teamId": 1610612751,
+				"teamName": "Nets",
+				"teamCity": "Brooklyn",
+				"teamTricode": "BKN",
+				"wins": 2,
+				"losses": 2,
+				"score": 112,
+				"seed": null,
+				"inBonus": null,
+				"timeoutsRemaining": 1,
+				"periods": [{
+					"period": 1,
+					"periodType": "REGULAR",
+					"score": 28
+				}, {
+					"period": 2,
+					"periodType": "REGULAR",
+					"score": 37
+				}, {
+					"period": 3,
+					"periodType": "REGULAR",
+					"score": 22
+				}, {
+					"period": 4,
+					"periodType": "REGULAR",
+					"score": 25
+				}]
+			},
+			"gameLeaders": {
+				"homeLeaders": {
+					"personId": 1626157,
+					"name": "Karl-Anthony Towns",
+					"jerseyNum": "32",
+					"position": "C-F",
+					"teamTricode": "MIN",
+					"playerSlug": null,
+					"points": 15,
+					"rebounds": 9,
+					"assists": 7
+				},
+				"awayLeaders": {
+					"personId": 202681,
+					"name": "Kyrie Irving",
+					"jerseyNum": "11",
+					"position": "G",
+					"teamTricode": "BKN",
+					"playerSlug": null,
+					"points": 26,
+					"rebounds": 2,
+					"assists": 4
+				}
+			},
+			"pbOdds": {
+				"team": null,
+				"odds": 0.0,
+				"suspended": 1
+			}
+		}, {
+			"gameId": "0012200067",
+			"gameCode": "20221014/ATLNOP",
+			"gameStatus": 3,
+			"gameStatusText": "Final",
+			"period": 4,
+			"gameClock": "",
+			"gameTimeUTC": "2022-10-15T00:00:00Z",
+			"gameEt": "2022-10-14T20:00:00Z",
+			"regulationPeriods": 4,
+			"ifNecessary": false,
+			"seriesGameNumber": "",
+			"seriesText": "",
+			"homeTeam": {
+				"teamId": 1610612740,
+				"teamName": "Pelicans",
+				"teamCity": "New Orleans",
+				"teamTricode": "NOP",
+				"wins": 4,
+				"losses": 1,
+				"score": 120,
+				"seed": null,
+				"inBonus": null,
+				"timeoutsRemaining": 1,
+				"periods": [{
+					"period": 1,
+					"periodType": "REGULAR",
+					"score": 40
+				}, {
+					"period": 2,
+					"periodType": "REGULAR",
+					"score": 24
+				}, {
+					"period": 3,
+					"periodType": "REGULAR",
+					"score": 29
+				}, {
+					"period": 4,
+					"periodType": "REGULAR",
+					"score": 27
+				}]
+			},
+			"awayTeam": {
+				"teamId": 1610612737,
+				"teamName": "Hawks",
+				"teamCity": "Atlanta",
+				"teamTricode": "ATL",
+				"wins": 2,
+				"losses": 2,
+				"score": 111,
+				"seed": null,
+				"inBonus": null,
+				"timeoutsRemaining": 1,
+				"periods": [{
+					"period": 1,
+					"periodType": "REGULAR",
+					"score": 24
+				}, {
+					"period": 2,
+					"periodType": "REGULAR",
+					"score": 43
+				}, {
+					"period": 3,
+					"periodType": "REGULAR",
+					"score": 25
+				}, {
+					"period": 4,
+					"periodType": "REGULAR",
+					"score": 19
+				}]
+			},
+			"gameLeaders": {
+				"homeLeaders": {
+					"personId": 202685,
+					"name": "Jonas Valanciunas",
+					"jerseyNum": "17",
+					"position": "C",
+					"teamTricode": "NOP",
+					"playerSlug": null,
+					"points": 16,
+					"rebounds": 11,
+					"assists": 7
+				},
+				"awayLeaders": {
+					"personId": 1630552,
+					"name": "Jalen Johnson",
+					"jerseyNum": "1",
+					"position": "F",
+					"teamTricode": "ATL",
+					"playerSlug": null,
+					"points": 14,
+					"rebounds": 9,
+					"assists": 4
+				}
+			},
+			"pbOdds": {
+				"team": null,
+				"odds": 0.0,
+				"suspended": 1
+			}
+		}, {
+			"gameId": "0012200068",
+			"gameCode": "20221014/DALUTA",
+			"gameStatus": 3,
+			"gameStatusText": "Final",
+			"period": 4,
+			"gameClock": "",
+			"gameTimeUTC": "2022-10-15T01:00:00Z",
+			"gameEt": "2022-10-14T21:00:00Z",
+			"regulationPeriods": 4,
+			"ifNecessary": false,
+			"seriesGameNumber": "",
+			"seriesText": "",
+			"homeTeam": {
+				"teamId": 1610612762,
+				"teamName": "Jazz",
+				"teamCity": "Utah",
+				"teamTricode": "UTA",
+				"wins": 1,
+				"losses": 3,
+				"score": 101,
+				"seed": null,
+				"inBonus": null,
+				"timeoutsRemaining": 1,
+				"periods": [{
+					"period": 1,
+					"periodType": "REGULAR",
+					"score": 26
+				}, {
+					"period": 2,
+					"periodType": "REGULAR",
+					"score": 27
+				}, {
+					"period": 3,
+					"periodType": "REGULAR",
+					"score": 26
+				}, {
+					"period": 4,
+					"periodType": "REGULAR",
+					"score": 22
+				}]
+			},
+			"awayTeam": {
+				"teamId": 1610612742,
+				"teamName": "Mavericks",
+				"teamCity": "Dallas",
+				"teamTricode": "DAL",
+				"wins": 2,
+				"losses": 1,
+				"score": 115,
+				"seed": null,
+				"inBonus": null,
+				"timeoutsRemaining": 1,
+				"periods": [{
+					"period": 1,
+					"periodType": "REGULAR",
+					"score": 27
+				}, {
+					"period": 2,
+					"periodType": "REGULAR",
+					"score": 27
+				}, {
+					"period": 3,
+					"periodType": "REGULAR",
+					"score": 28
+				}, {
+					"period": 4,
+					"periodType": "REGULAR",
+					"score": 33
+				}]
+			},
+			"gameLeaders": {
+				"homeLeaders": {
+					"personId": 1628374,
+					"name": "Lauri Markkanen",
+					"jerseyNum": "23",
+					"position": "F-C",
+					"teamTricode": "UTA",
+					"playerSlug": null,
+					"points": 21,
+					"rebounds": 10,
+					"assists": 2
+				},
+				"awayLeaders": {
+					"personId": 1629029,
+					"name": "Luka Doncic",
+					"jerseyNum": "77",
+					"position": "F-G",
+					"teamTricode": "DAL",
+					"playerSlug": null,
+					"points": 24,
+					"rebounds": 3,
+					"assists": 5
+				}
+			},
+			"pbOdds": {
+				"team": null,
+				"odds": 0.0,
+				"suspended": 1
+			}
+		}, {
+			"gameId": "0012200069",
+			"gameCode": "20221014/DENGSW",
+			"gameStatus": 3,
+			"gameStatusText": "Final",
+			"period": 4,
+			"gameClock": "",
+			"gameTimeUTC": "2022-10-15T02:00:00Z",
+			"gameEt": "2022-10-14T22:00:00Z",
+			"regulationPeriods": 4,
+			"ifNecessary": false,
+			"seriesGameNumber": "",
+			"seriesText": "",
+			"homeTeam": {
+				"teamId": 1610612744,
+				"teamName": "Warriors",
+				"teamCity": "Golden State",
+				"teamTricode": "GSW",
+				"wins": 0,
+				"losses": 0,
+				"score": 112,
+				"seed": null,
+				"inBonus": null,
+				"timeoutsRemaining": 6,
+				"periods": [{
+					"period": 1,
+					"periodType": "REGULAR",
+					"score": 0
+				}, {
+					"period": 2,
+					"periodType": "REGULAR",
+					"score": 0
+				}, {
+					"period": 3,
+					"periodType": "REGULAR",
+					"score": 0
+				}, {
+					"period": 4,
+					"periodType": "REGULAR",
+					"score": 0
+				}]
+			},
+			"awayTeam": {
+				"teamId": 1610612743,
+				"teamName": "Nuggets",
+				"teamCity": "Denver",
+				"teamTricode": "DEN",
+				"wins": 0,
+				"losses": 0,
+				"score": 119,
+				"seed": null,
+				"inBonus": null,
+				"timeoutsRemaining": 6,
+				"periods": [{
+					"period": 1,
+					"periodType": "REGULAR",
+					"score": 0
+				}, {
+					"period": 2,
+					"periodType": "REGULAR",
+					"score": 0
+				}, {
+					"period": 3,
+					"periodType": "REGULAR",
+					"score": 0
+				}, {
+					"period": 4,
+					"periodType": "REGULAR",
+					"score": 0
+				}]
+			},
+			"gameLeaders": {
+				"homeLeaders": {
+					"personId": 0,
+					"name": "",
+					"jerseyNum": "",
+					"position": "",
+					"teamTricode": "GSW",
+					"playerSlug": null,
+					"points": 0,
+					"rebounds": 0,
+					"assists": 0
+				},
+				"awayLeaders": {
+					"personId": 0,
+					"name": "",
+					"jerseyNum": "",
+					"position": "",
+					"teamTricode": "DEN",
+					"playerSlug": null,
+					"points": 0,
+					"rebounds": 0,
+					"assists": 0
+				}
+			},
+			"pbOdds": {
+				"team": null,
+				"odds": 0.0,
+				"suspended": 1
+			}
+		}, {
+			"gameId": "0012200070",
+			"gameCode": "20221014/LALSAC",
+			"gameStatus": 3,
+			"gameStatusText": "Final",
+			"period": 4,
+			"gameClock": "",
+			"gameTimeUTC": "2022-10-15T02:00:00Z",
+			"gameEt": "2022-10-14T22:00:00Z",
+			"regulationPeriods": 4,
+			"ifNecessary": false,
+			"seriesGameNumber": "",
+			"seriesText": "",
+			"homeTeam": {
+				"teamId": 1610612758,
+				"teamName": "Kings",
+				"teamCity": "Sacramento",
+				"teamTricode": "SAC",
+				"wins": 0,
+				"losses": 0,
+				"score": 133,
+				"seed": null,
+				"inBonus": null,
+				"timeoutsRemaining": 6,
+				"periods": [{
+					"period": 1,
+					"periodType": "REGULAR",
+					"score": 0
+				}, {
+					"period": 2,
+					"periodType": "REGULAR",
+					"score": 0
+				}, {
+					"period": 3,
+					"periodType": "REGULAR",
+					"score": 0
+				}, {
+					"period": 4,
+					"periodType": "REGULAR",
+					"score": 0
+				}]
+			},
+			"awayTeam": {
+				"teamId": 1610612747,
+				"teamName": "Lakers",
+				"teamCity": "Los Angeles",
+				"teamTricode": "LAL",
+				"wins": 0,
+				"losses": 0,
+				"score": 86,
+				"seed": null,
+				"inBonus": null,
+				"timeoutsRemaining": 6,
+				"periods": [{
+					"period": 1,
+					"periodType": "REGULAR",
+					"score": 0
+				}, {
+					"period": 2,
+					"periodType": "REGULAR",
+					"score": 0
+				}, {
+					"period": 3,
+					"periodType": "REGULAR",
+					"score": 0
+				}, {
+					"period": 4,
+					"periodType": "REGULAR",
+					"score": 0
+				}]
+			},
+			"gameLeaders": {
+				"homeLeaders": {
+					"personId": 0,
+					"name": "",
+					"jerseyNum": "",
+					"position": "",
+					"teamTricode": "SAC",
+					"playerSlug": null,
+					"points": 0,
+					"rebounds": 0,
+					"assists": 0
+				},
+				"awayLeaders": {
+					"personId": 0,
+					"name": "",
+					"jerseyNum": "",
+					"position": "",
+					"teamTricode": "LAL",
+					"playerSlug": null,
+					"points": 0,
+					"rebounds": 0,
+					"assists": 0
+				}
+			},
+			"pbOdds": {
+				"team": null,
+				"odds": 0.0,
+				"suspended": 1
+			}
+		}]
+	}
 }

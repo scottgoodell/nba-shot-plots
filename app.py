@@ -27,7 +27,7 @@ def poll_games():
         players_for_charts = available_chart_players(team_id)
 
         if len(players_for_charts) > 0:
-          print(f"Found {len(players_for_charts)} players to chart for game: {game['game_id']}..")
+          print(f"Found {len(players_for_charts)} player(s) to chart for game: {game['game_id']}..")
           
           for player in players_for_charts:
             print(f"Starting to generate chart for player: {player['player_id']} team: {player['team_id']} game: {game['game_id']}..")

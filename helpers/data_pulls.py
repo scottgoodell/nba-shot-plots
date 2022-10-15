@@ -1,5 +1,5 @@
 import json
-from nba_api.live.nba.endpoints import boxscore
+from nba_api.stats.endpoints import boxscoretraditionalv2
 from nba_api.stats.endpoints import shotchartdetail
 
 from helpers.delay import delay_between_1_and_2_secs
@@ -28,6 +28,6 @@ def player_game_shot_data(
 
 def get_game_boxscore(game_id):
   delay_between_1_and_2_secs()
-  data = boxscore.BoxScore(game_id)
+  data = boxscoretraditionalv2.BoxScoreTraditionalV2(game_id = game_id)
 
-  return data.game.get_dict()
+  return data.get_dict()

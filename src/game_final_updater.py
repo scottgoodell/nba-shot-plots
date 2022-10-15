@@ -26,6 +26,8 @@ class GameFinalUpdater:
     games = self._get_scoreboard()
 
     for game in games:
+      print(f"Evaluating game {game['gameId']}..")
+
       if game["gameStatusText"] == "Final":
         game_update_context = self._update_game_final(game)
 
@@ -48,8 +50,8 @@ class GameFinalUpdater:
     unique_game_final_df = game_finals_df[game_finals_df["game_id"] == game_id]
 
     if unique_game_final_df.shape[0] == 0:
-      away_shot_data_available = self._is_shot_data_available(game_id, away_team_id, "away")
-      home_shot_data_available = self._is_shot_data_available(game_id, home_team_id, "home")
+      away_shot_data_available = self._is_shot_data_available(game_id, away_team_id)
+      home_shot_data_available = self._is_shot_data_available(game_id, home_team_id)
 
     if away_shot_data_available == False or home_shot_data_available == False:
       new_final = False
@@ -83,16 +85,26 @@ class GameFinalUpdater:
     data = scoreboard.ScoreBoard().get_dict()
     return data.get("scoreboard", {}).get("games", [])
 
-  def _is_shot_data_available(self, game_id, team_id, team_type) -> bool:
-    boxscore_data = get_game_boxscore(game_id)
-    team_boxscore_data = boxscore_data[f"{team_type}Team"]["players"]
+  def _is_shot_data_available(self, game_id, team_id) -> bool:
+    boxscore_data = get_game_boxscore(game_id)["resultSets"]
+
+    if len(boxscore_data[0]["rowSet"]) == 0:
+      return False
+
+    player_boxscore_data = [stat_set for stat_set in boxscore_data if stat_set["name"] == "PlayerStats"][0]
+    team_player_boxscore_data = [stat_line for stat_line in player_boxscore_data["rowSet"] if stat_line[1] == team_id]
 
     player_id = 0
     shots_attempted = 0
-    for player in team_boxscore_data:
-      if player["statistics"]["fieldGoalsAttempted"] > shots_attempted:
-        shots_attempted = player["statistics"]["fieldGoalsAttempted"]
-        player_id = player["personId"]
+    for player in team_player_boxscore_data:
+      field_goals_attempted = player[11]
+
+      if field_goals_attempted is None:
+        continue
+
+      if field_goals_attempted > shots_attempted:
+        shots_attempted = field_goals_attempted
+        player_id = player[4]
 
     if player_id == 0:
       return False
