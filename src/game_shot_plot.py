@@ -7,7 +7,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import re
 
-from helpers.data_pulls import get_game_boxscore, player_game_shot_data 
+from helpers.data_pulls import get_game_boxscore, get_game_summary, player_game_shot_data
 from services.google_storage_handler import GoogleStorageHandler
 from static.colors import colors
 from static.defaults import Defaults
@@ -37,10 +37,13 @@ class GameShotPlot:
     lines_opacity = 0.85 # const?
 
     game_boxscore_data = get_game_boxscore(self.game_id)
-    team_boxscore_data = self._get_team_stats(game_boxscore_data)
-    top_stats, bottom_stats = self._get_player_game_stats(team_boxscore_data)
+    team_player_boxscore_data, team_team_boxscore_data = self._get_team_stats(game_boxscore_data)
+    top_stats, bottom_stats = self._get_player_game_stats(team_player_boxscore_data, team_team_boxscore_data)
 
-    if top_stats["status"] == "INACTIVE" or top_stats["minutes"] == 0:
+    if top_stats is None:
+      return
+
+    if "DNP" in top_stats["status"] or top_stats["minutes"] == 0:
       return
 
     font_dir = ["./static/fonts/Lato", "./static/fonts/McLaren"]
@@ -279,63 +282,82 @@ class GameShotPlot:
     }
 
   def _get_team_stats(self, boxscore_data):
-    return boxscore_data["awayTeam"] if boxscore_data["awayTeam"]["teamId"] == self.team_id else boxscore_data["homeTeam"]
+    player_data = [stat_set for stat_set in boxscore_data if stat_set["name"] == "PlayerStats"][0]
+    player_headers = player_data["headers"]
+    team_data = [stat_set for stat_set in boxscore_data if stat_set["name"] == "TeamStats"][0]
+    team_headers = team_data["headers"]
 
-  def _get_player_game_stats(self, team_stats):
-    player_stats = [player for player in team_stats["players"] if player['personId'] == self.player_id][0]
-    plus_minus = int(player_stats["statistics"]["plusMinusPoints"])
+    player_records = [dict(zip(player_headers, player)) for player in player_data["rowSet"]]
+    team_records = [dict(zip(team_headers, team)) for team in team_data["rowSet"]]
+
+    player_return_records = [records for records in player_records if records["TEAM_ID"] == self.team_id]
+    team_return_records = [records for records in team_records if records["TEAM_ID"] == self.team_id][0]
+
+    return [player_return_records, team_return_records]
+
+  def _get_player_game_stats(self, team_player_stats, team_team_stats):
+    player_stats = [player for player in team_player_stats if player['PLAYER_ID'] == self.player_id]
+    if len(player_stats) == 0:
+      return [None, None]
+    else:
+      player_stats = player_stats[0]
+
+    plus_minus = int(player_stats["PLUS_MINUS"]) if player_stats["PLUS_MINUS"] else 0
     if plus_minus > 0:
       str_plus_minus = f"+{str(plus_minus)}"
     else:
       str_plus_minus = str(plus_minus)
 
     top_stats = {
-      "minutes": int(re.sub(r'[a-zA-Z]', '', player_stats["statistics"]["minutesCalculated"])),
-      "starting": 'Yes' if player_stats["starter"] == '1' else 'No',
+      "minutes": int(player_stats["MIN"][0:player_stats["MIN"].index(":")]) if player_stats["MIN"] else 0,
+      "starting": 'Yes' if player_stats["START_POSITION"] != "" else "No",
       "plus_minus": str_plus_minus,
-      "points": player_stats["statistics"]["points"],
-      "status": player_stats["status"]
+      "points": player_stats["PTS"],
+      "status": player_stats["COMMENT"]
     }
 
     bottom_stats = [
-      f"FGs: {player_stats['statistics']['fieldGoalsMade']}/{player_stats['statistics']['fieldGoalsAttempted']}",
-      f"3FGs: {player_stats['statistics']['threePointersMade']}/{player_stats['statistics']['threePointersAttempted']}",
-      f"FTs: {player_stats['statistics']['freeThrowsMade']}/{player_stats['statistics']['freeThrowsAttempted']}",
+      f"FGs: {player_stats['FGM']}/{player_stats['FGA']}",
+      f"3FGs: {player_stats['FG3M']}/{player_stats['FG3A']}",
+      f"FTs: {player_stats['FTM']}/{player_stats['FTA']}",
       f"EFG%: {self._calc_efg(player_stats)}",
-      f"ASTs: {player_stats['statistics']['assists']}",
-      f"TOs: {player_stats['statistics']['turnovers']}",
-      f"REBs: {player_stats['statistics']['reboundsTotal']}",
-      f"OREBs: {player_stats['statistics']['reboundsOffensive']}",
-      f"STLs: {player_stats['statistics']['steals']}",
-      f"BLKs: {player_stats['statistics']['blocks']}",
-      f"PFs: {player_stats['statistics']['foulsPersonal']}",
-      f"USG%: {self._calc_usage_rate(team_stats, player_stats)}",
+      f"ASTs: {player_stats['AST']}",
+      f"TOs: {player_stats['TO']}",
+      f"REBs: {player_stats['REB']}",
+      f"OREBs: {player_stats['OREB']}",
+      f"STLs: {player_stats['STL']}",
+      f"BLKs: {player_stats['BLK']}",
+      f"PFs: {player_stats['PF']}",
+      f"USG%: {self._calc_usage_rate(team_team_stats, player_stats)}",
     ]
 
     return [top_stats, bottom_stats]
 
   def _calc_efg(self, player_data):
-    player_fgs_made     = player_data['statistics']['fieldGoalsMade']
-    player_fgs_attempts = player_data['statistics']['fieldGoalsAttempted']
-    player_3fgs_made    = player_data['statistics']['threePointersMade']
+    if player_data["MIN"] is None:
+      return "0"
+
+    player_fgs_made     = player_data["FGM"]
+    player_fgs_attempts = player_data["FGA"]
+    player_3fgs_made    = player_data["FG3M"]
 
     effective_field_goal_perc = (player_fgs_made + 0.5 * player_3fgs_made) / player_fgs_attempts if player_fgs_attempts > 0 else 0.0
 
     return str(int(round(effective_field_goal_perc * 100, 0)))
 
   def _calc_usage_rate(self, team_data, player_data):
-    player_fgs  = int(player_data['statistics']['fieldGoalsAttempted'])
-    player_fts  = int(player_data['statistics']['freeThrowsAttempted'])
-    player_tos  = int(player_data['statistics']['turnovers'])
-    player_mins = int(re.sub(r'[a-zA-Z]', '', player_data["statistics"]["minutesCalculated"]))
-
-    team_fgs  = int(team_data['statistics']['fieldGoalsAttempted'])
-    team_fts  = int(team_data['statistics']['freeThrowsAttempted'])
-    team_tos  = int(team_data['statistics']['turnovers'])
-    team_mins = int(re.sub(r'[a-zA-Z]', '', team_data["statistics"]["minutesCalculated"]))
-
-    if player_mins == 0:
+    if player_data["MIN"] is None:
       return "0"
+
+    player_fgs  = int(player_data["FGA"])
+    player_fts  = int(player_data["FTA"])
+    player_tos  = int(player_data["TO"])
+    player_mins = int(player_data["MIN"][0:player_data["MIN"].index(":")]) if player_data["MIN"] else 0
+
+    team_fgs  = int(team_data["FGA"])
+    team_fts  = int(team_data["FTA"])
+    team_tos  = int(team_data["TO"])
+    team_mins = int(team_data["MIN"][0:team_data["MIN"].index(":")]) if team_data["MIN"] else 0
 
     usage_percentage = ((player_fgs + (0.44 * player_fts) + player_tos) * (team_mins / 5)) \
     / (player_mins * (team_fgs + (.44 * team_fts) + team_tos))
