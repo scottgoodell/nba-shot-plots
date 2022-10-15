@@ -27,14 +27,18 @@ class GameFinalUpdater:
 
     for game in games:
       print(f"Evaluating game {game['gameId']}..")
+      if "final" in game["gameStatusText"].lower():
+        away_score = game["awayTeam"]["score"]
+        home_score = game["homeTeam"]["score"]
 
-      if game["gameStatusText"] == "Final":
-        game_update_context = self._update_game_final(game)
+        if away_score != home_score:
+          game_update_context = self._update_game_final(game)
 
-        if game_update_context["new_final"]:
-          new_game_finals.append(game_update_context)
+          if game_update_context["new_final"]:
+            new_game_finals.append(game_update_context)
 
-    storage_client.upload_object("nba-shot-plot-game-final-backup", "game_finals.csv")
+    if len(new_game_finals) > 0:
+      storage_client.upload_object("nba-shot-plot-game-final-backup", "game_finals.csv")
 
     return new_game_finals
 
