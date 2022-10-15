@@ -90,7 +90,7 @@ class GameFinalUpdater:
     return data.get("scoreboard", {}).get("games", [])
 
   def _is_shot_data_available(self, game_id, team_id) -> bool:
-    boxscore_data = get_game_boxscore(game_id)["resultSets"]
+    boxscore_data = get_game_boxscore(game_id)
 
     if len(boxscore_data[0]["rowSet"]) == 0:
       return False

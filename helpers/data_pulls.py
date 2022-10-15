@@ -22,7 +22,7 @@ def player_game_shot_data(
     season_type_all_star = season_part
   )
   shot_data = json.loads(shot_json.get_json())
-  shot_values = shot_data['resultSets'][0]['rowSet']
+  shot_values = shot_data["resultSets"][0]["rowSet"]
 
   return shot_values
 
@@ -30,4 +30,4 @@ def get_game_boxscore(game_id):
   delay_between_1_and_2_secs()
   data = boxscoretraditionalv2.BoxScoreTraditionalV2(game_id = game_id)
 
-  return data.get_dict()
+  return data.get_dict()["resultSets"]
