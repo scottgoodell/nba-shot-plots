@@ -69,7 +69,7 @@ class GameFinalUpdater:
         "home_team_id": home_team_id,
       }
 
-      df_new_row = game_finals_df.append(row, ignore_index = True)
+      df_new_row = pandas.concat([game_finals_df, pandas.DataFrame(row, index=[0])])
       df_new_row.to_csv(self.csv_path, index = False)
       print(f"Added new game with id: {game_id} to csv..")
 
