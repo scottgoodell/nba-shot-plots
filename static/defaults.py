@@ -1,5 +1,5 @@
 class Defaults:
   
   SEASON = "2022-23"
-  SEASON_PART = "Pre Season"
+  SEASON_PART = "Regular Season"
   SHOT_TYPE = "FGA"
