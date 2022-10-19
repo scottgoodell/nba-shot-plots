@@ -103,7 +103,7 @@ class GameShotPlot:
     court_ax.plot([214, 214], [0, 140], linewidth=lines_width, color=lines_color, alpha=lines_opacity)
 
     # 3PT Arc
-    court_ax.add_artist(mpl.patches.Arc((0, 125), 430, 310, theta1=4, theta2=176, facecolor='none', edgecolor=lines_color, lw=lines_width, snap=True, alpha=lines_opacity))
+    court_ax.add_artist(mpl.patches.Arc((0, 125), 430, 320, theta1=4, theta2=176, facecolor='none', edgecolor=lines_color, lw=lines_width, snap=True, alpha=lines_opacity))
 
     # Lane and Key
     court_ax.plot([-80, -80], [0, 190], linewidth=lines_width, color=lines_color, alpha=lines_opacity)
