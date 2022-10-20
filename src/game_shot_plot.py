@@ -144,8 +144,11 @@ class GameShotPlot:
     }
 
     for shot in game_shot_values:
+      shot_x = -shot[3]
+      shot_y = shot[4] + 45 if shot[4] + 45 < 470 else 470
+
       mark_color = shot_marker_colors[shot[2]][shot[1]]
-      court_ax.plot(-shot[3], shot[4]+45, marker='o', color=mark_color, markersize=12, markeredgecolor=colors["marker_edge"])
+      court_ax.plot(shot_x, shot_y, marker='o', color=mark_color, markersize=12, markeredgecolor=colors["marker_edge"])
 
     # Remove ticks
     court_ax.set_xticks([])
