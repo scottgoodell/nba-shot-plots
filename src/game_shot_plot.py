@@ -41,9 +41,11 @@ class GameShotPlot:
     top_stats, bottom_stats = self._get_player_game_stats(team_player_boxscore_data, team_team_boxscore_data)
 
     if top_stats is None:
+      print("Player's top_stats were None during creation of the chart..")
       return
 
     if "DNP" in top_stats["status"] or top_stats["minutes"] == 0:
+      print(f"Player's top_stats status was DNP: {top_stats['status']} or minutes were 0: {top_stats['minutes']} creation of the chart..")
       return
 
     font_dir = ["./static/fonts/Lato", "./static/fonts/McLaren"]

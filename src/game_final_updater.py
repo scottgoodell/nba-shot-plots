@@ -91,7 +91,6 @@ class GameFinalUpdater:
 
   def _is_shot_data_available(self, game_id, team_id) -> bool:
     game_summary = get_game_summary(game_id)
-
     if game_summary is None or len(game_summary[0]["rowSet"]) == 0:
       return False
 
@@ -99,7 +98,6 @@ class GameFinalUpdater:
       return False
 
     boxscore_data = get_game_boxscore(game_id)
-
     if boxscore_data is None or len(boxscore_data[0]["rowSet"]) == 0:
       return False
 
