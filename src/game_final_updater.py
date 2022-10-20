@@ -100,7 +100,7 @@ class GameFinalUpdater:
 
     boxscore_data = get_game_boxscore(game_id)
 
-    if len(boxscore_data[0]["rowSet"]) == 0:
+    if boxscore_data is None or len(boxscore_data[0]["rowSet"]) == 0:
       return False
 
     player_boxscore_data = [stat_set for stat_set in boxscore_data if stat_set["name"] == "PlayerStats"][0]
