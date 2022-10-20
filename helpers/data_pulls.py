@@ -29,12 +29,20 @@ def player_game_shot_data(
 
 def get_game_boxscore(game_id):
   delay_between_1_and_2_secs()
-  data = boxscoretraditionalv2.BoxScoreTraditionalV2(game_id = game_id)
+  try:
+    data = boxscoretraditionalv2.BoxScoreTraditionalV2(game_id = game_id)
 
-  return data.get_dict()["resultSets"]
+    return data.get_dict()["resultSets"]
+  except Exception as e:
+    print(f"Game boxscore failed: {e}")
+    return
 
 def get_game_summary(game_id):
   delay_between_1_and_2_secs()
-  data = boxscoresummaryv2.BoxScoreSummaryV2(game_id = game_id)
+  try:
+    data = boxscoresummaryv2.BoxScoreSummaryV2(game_id = game_id)
 
-  return data.get_dict()["resultSets"]
+    return data.get_dict()["resultSets"]
+  except Exception as e:
+    print(f"Game summary failed: {e}")
+    return

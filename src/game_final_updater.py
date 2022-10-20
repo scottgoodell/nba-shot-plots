@@ -92,7 +92,7 @@ class GameFinalUpdater:
   def _is_shot_data_available(self, game_id, team_id) -> bool:
     game_summary = get_game_summary(game_id)
 
-    if len(game_summary[0]["rowSet"]) == 0:
+    if game_summary is None or len(game_summary[0]["rowSet"]) == 0:
       return False
 
     if "final" not in game_summary[0]["rowSet"][0][4].lower():

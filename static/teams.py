@@ -91,7 +91,7 @@ teams = [
     "id": 1610612745,
     "name": "Houston Rockets",
     "abbreviation": "hou",
-    "social_hashtag": "#Rockets",
+    "social_hashtag": "#LightTheFuse",
     "mascot": "Rockets",
     "coordinates": [-360, 360, -140, 560],
     "court_color": "#ffd0d0",
