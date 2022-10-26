@@ -22,4 +22,10 @@ twitter_accounts = {
     "CONSUMER_KEY": os.environ["SOPHOMORE_TWITTER_CONSUMER_KEY"],
     "CONSUMER_SECRET": os.environ["SOPHOMORE_TWITTER_CONSUMER_SECRET"],
   },
+  "westbrook": {
+    "ACCESS_TOKEN": os.environ["RUSS_TWITTER_ACCESS_TOKEN"],
+    "ACCESS_TOKEN_SECRET": os.environ["RUSS_TWITTER_ACCESS_TOKEN_SECRET"],
+    "CONSUMER_KEY": os.environ["RUSS_TWITTER_CONSUMER_KEY"],
+    "CONSUMER_SECRET": os.environ["RUSS_TWITTER_CONSUMER_SECRET"],
+  },
 }

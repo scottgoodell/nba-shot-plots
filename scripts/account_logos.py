@@ -25,6 +25,8 @@ class AccountLogo:
       account = "Rookie"
     elif self.category == "sophomores":
       account = "Sophomore"
+    elif self.category == "westbrook":
+      account = "Russ"
     else:
       account = "NBA"
 
@@ -120,9 +122,9 @@ class AccountLogo:
 
 if __name__ == "__main__":
   a = AccountLogo(
-    player_id = 203999,
-    team_id = 1610612743,
-    category = "league"
+    player_id = 201566,
+    team_id = 1610612747,
+    category = "westbrook"
   )
 
 a.build()

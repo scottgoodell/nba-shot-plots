@@ -7,5 +7,8 @@ player_categories = {
   },
   "league": {
     "twitter_handle": "@NbaShotPlots"
+  },
+  "westbrook": {
+    "twitter_handle": "@RussShotPlots"
   }
 }
