@@ -53,7 +53,7 @@ sophomores = [
     "name": "Jonathan Kuminga",
     "draft_year": 2021,
     "draft_pick": 7,
-    "active": True
+    "active": False
   },
   {
     "id": 1630532,
@@ -61,6 +61,22 @@ sophomores = [
     "name": "Franz Wagner",
     "draft_year": 2021,
     "draft_pick": 8,
+    "active": True
+  },
+  {
+    "id": 1630530,
+    "slug": "trey-murphy-iii",
+    "name": "Trey Murphy III",
+    "draft_year": 2021,
+    "draft_pick": 17,
+    "active": True
+  },
+  {
+    "id": 1630583,
+    "slug": "santi-aldama",
+    "name": "Santi Aldama",
+    "draft_year": 2021,
+    "draft_pick": 30,
     "active": True
   }
 ]
