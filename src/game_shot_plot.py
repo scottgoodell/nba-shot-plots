@@ -316,7 +316,7 @@ class GameShotPlot:
       str_plus_minus = str(plus_minus)
 
     top_stats = {
-      "minutes": int(player_stats["MIN"][0:player_stats["MIN"].index(":")]) if player_stats["MIN"] else 0,
+      "minutes": int(float(player_stats["MIN"][0:player_stats["MIN"].index(":")])) if player_stats["MIN"] else 0,
       "starting": 'Yes' if player_stats["START_POSITION"] != "" else "No",
       "plus_minus": str_plus_minus,
       "points": player_stats["PTS"],
