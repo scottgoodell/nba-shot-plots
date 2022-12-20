@@ -359,12 +359,12 @@ class GameShotPlot:
     player_fgs  = int(player_data["FGA"])
     player_fts  = int(player_data["FTA"])
     player_tos  = int(player_data["TO"])
-    player_mins = int(player_data["MIN"][0:player_data["MIN"].index(":")]) if player_data["MIN"] else 0
+    player_mins = int(float(player_data["MIN"][0:player_data["MIN"].index(":")])) if player_data["MIN"] else 0
 
     team_fgs  = int(team_data["FGA"])
     team_fts  = int(team_data["FTA"])
     team_tos  = int(team_data["TO"])
-    team_mins = int(team_data["MIN"][0:team_data["MIN"].index(":")]) if team_data["MIN"] else 0
+    team_mins = int(float(team_data["MIN"][0:team_data["MIN"].index(":")])) if team_data["MIN"] else 0
 
     usage_percentage = ((player_fgs + (0.44 * player_fts) + player_tos) * (team_mins / 5)) \
     / (player_mins * (team_fgs + (.44 * team_fts) + team_tos))
