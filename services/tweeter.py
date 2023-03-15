@@ -4,6 +4,8 @@ from static.twitter_accounts import twitter_accounts
 
 class Tweeter:
 
+   # TODO: Error handling..
+
    def __init__(self, account_type) -> None:
       self.access_token = twitter_accounts[account_type]["ACCESS_TOKEN"]
       self.access_token_secret = twitter_accounts[account_type]["ACCESS_TOKEN_SECRET"]

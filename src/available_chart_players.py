@@ -3,14 +3,14 @@ import json
 
 from nba_api.stats.endpoints import commonteamroster
 
-from helpers.delay import delay_between_1_and_2_secs
+from helpers.utils import delay_between_1_and_2_secs
 
 
 PLAYER_CATEGORIES = ["rookies", "sophomores", "westbrook"]
 
 def available_chart_players(team_id):
 
-  # abstract this to helpers
+  # TODO: Abstract this to helpers
   def _get_team_roster_player_ids(team_id):
     delay_between_1_and_2_secs()
     team_roster_response = commonteamroster.CommonTeamRoster(season = "2022-23", team_id = team_id)

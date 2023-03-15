@@ -9,6 +9,8 @@ from src.game_shot_plot import GameShotPlot
 from services.tweeter import Tweeter
 
 
+## TODO: there should only be 1 source of games truth should always be pulling from GCP
+
 scheduler = BackgroundScheduler(daemon=True)
 app = Flask(__name__)
 
@@ -63,7 +65,7 @@ def build_chart(team_id, player_id, game_id, category):
 
   return [chart.image_link, chart.tweet_text]
 
-# use dictionary to get account based on category
+# TODO: use dict to get account based on category
 def send_tweet(media_link, account_type, tweet_text):
   tweeter = Tweeter(account_type)
   tweeter.send_tweet(tweet_text = tweet_text, media_link = media_link)

@@ -3,9 +3,10 @@ from google.cloud import storage
 
 
 class GoogleStorageHandler:
+
+  # TODO: Error handling..
   
   def __init__(self) -> None:
-    
     load_dotenv()
     self.client = storage.Client()
     

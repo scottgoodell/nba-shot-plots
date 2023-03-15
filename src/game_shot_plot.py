@@ -379,14 +379,3 @@ class GameShotPlot:
       return f"Drafted: {category_context['draft_year']} #{category_context['draft_pick']} ({team_context['abbreviation'].upper()})"
     else:
       return f"{team_context['name']}"
-
-
-# should i have a helper class to isolate player's stats for a specific game? GameStats (player_id, game_id)
-# maybe? if i feel like it's going to be reused; but right now it's not
-
-# class for font handling.. again if you are going to repeat it then separate it FontHandler
-
-# make player.json so you don't have to make a request
-
-# GameShotPlot < ShotPlot
-# build shouldn't know about the shot_values - this should be a separate method?

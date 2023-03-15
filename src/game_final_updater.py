@@ -5,7 +5,7 @@ import json
 import os
 import pandas
 
-from helpers.delay import delay_between_1_and_2_secs
+from helpers.utils import delay_between_1_and_2_secs
 from services.google_storage_handler import GoogleStorageHandler
 from static.defaults import Defaults
 

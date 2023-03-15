@@ -3,7 +3,7 @@ from nba_api.stats.endpoints import boxscoresummaryv2
 from nba_api.stats.endpoints import boxscoretraditionalv2
 from nba_api.stats.endpoints import shotchartdetail
 
-from helpers.delay import delay_between_1_and_2_secs
+from helpers.utils import delay_between_1_and_2_secs
 
 def player_game_shot_data(
   team_id,

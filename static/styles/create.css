@@ -54,8 +54,6 @@ body {
 .formItem {
   display: flex;
   flex-direction: column;
-  /* width: 360px;
-  height: 210px; */
   justify-content: space-around;
   row-gap: 10px;
 }
